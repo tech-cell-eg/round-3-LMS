@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('syllabis', function (Blueprint $table) {
+        Schema::create('user_links', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
-            $table->unsignedInteger('order')->default(0);
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->integer('duration')->default(0);
+            $table->string('platform')->nullable();
+            $table->string('link');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('syllabis');
+        Schema::dropIfExists('user_links');
     }
 };

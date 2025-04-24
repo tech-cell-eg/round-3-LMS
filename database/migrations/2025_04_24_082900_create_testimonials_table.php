@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('testimonials', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->enum('rating', ['1', '2', '3', '4', '5'])->nullable();
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }

@@ -13,6 +13,18 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->foreignId('instructor_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->decimal('price', 10, 2)->default(0);
+            $table->integer('duration');
+            $table->enum('level', ['beginner', 'intermediate', 'advanced']);
+            $table->text('description');
+            $table->string('video_url')->nullable();
+            $table->boolean('status')->default(1);
+            $table->decimal('sale', 10, 2)->default(0);
+            $table->string('language')->default('Arabic');
+            $table->boolean('certificate')->default(0);
             $table->timestamps();
         });
     }
