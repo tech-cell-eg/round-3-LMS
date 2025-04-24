@@ -10,4 +10,8 @@ class Lesson extends Model
     {
         return $this->belongsTo(Syllabi::class);
     }
+    public function progress()
+    {
+        return $this->hasMany(LessonProgress::class);
+    }
 }
