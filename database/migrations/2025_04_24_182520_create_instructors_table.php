@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('instructors', function (Blueprint $table) {
             $table->id();
+            $table->string('title')->nullable();
             $table->text('bio')->nullable();
             $table->integer('total_reviews')->default(0);
             $table->integer('total_students')->default(0);
