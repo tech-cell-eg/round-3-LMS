@@ -26,4 +26,8 @@ class Course extends Model
     {
         return $this->hasMany(Enrollment::class);
     }
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
 }
