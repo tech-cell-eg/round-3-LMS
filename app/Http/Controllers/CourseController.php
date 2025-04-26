@@ -1,18 +1,86 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CourseRequests\StoreCourseRequest;
 use App\Models\Course;
 use App\Traits\ApiResponse;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\PaginationResource;
+use App\Http\Resources\CourseIndexResource;
+use App\Http\Requests\CourseRequests\StoreCourseRequest;
 
 class CourseController extends Controller
 {
     use ApiResponse;
-    public function index()
+    public function index(Request $request)
     {
-        // Logic to get all courses
+        try {
+            $validated = $request->vaalidate([
+                'per_page'    => 'integer',
+                'sort_by'     => 'string|in:newest,highest_rating,most_enrolled',
+                'category_id' => 'integer|exists:categories,id',
+                'rating'      => 'numeric|between:0,5',
+                'min_section' => 'integer|min:1',
+                'max_section' => 'integer|gte:min_section',
+                'min_price'   => 'numeric|min:0',
+                'max_price'   => 'numeric|gte:min_price',
+                'search'      => 'string',
+            ]);
+            $query = Course::with(['category', 'instructor', 'syllabi', 'reviews', 'enrollments', 'image']);
+
+            if (! empty($validated['category_id'])) {
+                $query->where('category_id', $validated['category_id']);
+            }
+
+            if (! empty($validated['sort_by'])) {
+                if ($validated['sort_by'] === 'newest') {
+                    $query->latest();
+                } elseif ($validated['sort_by'] === 'highest_rating') {
+                    $query->withAvg('reviews', 'rating')->orderByDesc('reviews_avg_rating');
+                } elseif ($validated['sort_by'] === 'most_enrolled') {
+                    $query->withCount('enrollments')->orderByDesc('enrollments_count');
+                }
+            }
+
+            if (! empty($validated['rating'])) {
+                $query->whereHas('reviews', function ($q) use ($validated) {
+                    $q->where('rating', '>=', $validated['rating']);
+                });
+            }
+
+            if (! empty($validated['min_section'])) {
+                $query->where('section', '>=', $validated['min_section']);
+            }
+            if (! empty($validated['max_section'])) {
+                $query->where('section', '<=', $validated['max_section']);
+            }
+
+            if (! empty($validated['min_price'])) {
+                $query->where('price', '>=', $validated['min_price']);
+            }
+            if (! empty($validated['max_price'])) {
+                $query->where('price', '<=', $validated['max_price']);
+            }
+
+            if (! empty($validated['search'])) {
+                $query->where('title', 'like', '%' . $validated['search'] . '%');
+            }
+
+            $courses = $query->paginate($validated['per_page'] ?? 10);
+
+            if ($courses->isEmpty()) {
+                return $this->errorResponse('No courses found', 404);
+            }
+
+            return $this->successResponse([
+                'courses' => CourseIndexResource::collection($courses),
+                'pagination' => new PaginationResource($courses),
+            ], 'Courses retrieved successfully');
+
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to retrieve courses', 500);
+        }
     }
 
     public function show($id)
