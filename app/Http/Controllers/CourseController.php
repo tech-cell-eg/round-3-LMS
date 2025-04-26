@@ -1,14 +1,14 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CourseRequests\StoreCourseRequest;
+use App\Http\Resources\CourseIndexResource;
+use App\Http\Resources\PaginationResource;
 use App\Models\Course;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\PaginationResource;
-use App\Http\Resources\CourseIndexResource;
-use App\Http\Requests\CourseRequests\StoreCourseRequest;
+use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
 {
@@ -74,7 +74,7 @@ class CourseController extends Controller
             }
 
             return $this->successResponse([
-                'courses' => CourseIndexResource::collection($courses),
+                'courses'    => CourseIndexResource::collection($courses),
                 'pagination' => new PaginationResource($courses),
             ], 'Courses retrieved successfully');
 
@@ -85,7 +85,19 @@ class CourseController extends Controller
 
     public function show($id)
     {
-        // Logic to get a specific course by ID
+        try {
+            $course = Course::with(['category', 'instructor', 'syllabi.lessons', 'reviews', 'enrollments', 'image', 'favorites'])->find($id);
+
+            if (! $course) {
+                return $this->errorResponse('Course not found', 404);
+            }
+
+            return $this->successResponse([
+                'course' => new CourseIndexResource($course),
+            ], 'Course retrieved successfully');
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to retrieve course', 500);
+        }
     }
 
     public function store(StoreCourseRequest $request)

@@ -34,4 +34,8 @@ class Course extends Model
     {
         return $this->hasManyThrough(Lesson::class, Syllabi::class);
     }
+    public function favorites()
+    {
+        return $this->belongsToMany(User::class, 'favorites');
+    }
 }
