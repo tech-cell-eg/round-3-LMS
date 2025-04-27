@@ -81,7 +81,10 @@ class User extends Authenticatable
     {
         return $this->morphOne(Image::class, 'imageable');
     }
-
+    public function favorites()
+    {
+        return $this->belongsToMany(Course::class, 'favorites');
+    }
     // Check if user role is admin
     public function isAdmin()
     {
