@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Instructors\InstructorReview as InstructorsInstructorReview;
+use App\Http\Resources\TopInstructorResource;
 use App\Models\Instructor;
 use App\Models\InstructorReview;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
-class InstructorReviewController extends Controller
+class InstructorController extends Controller
 {
     use ApiResponse;
     public function addReview(InstructorsInstructorReview $request , $id){
@@ -30,5 +31,15 @@ class InstructorReviewController extends Controller
         $instructor->increment('total_reviews');
 
         return $this->successResponse(null, 'Rating created successfully', 201);
+    }
+
+    public function topInstructors()
+    {
+        $instructors = Instructor::with(['reviews', 'user'])
+            ->orderBy('total_reviews', 'desc')
+            ->take(5)
+            ->get();
+
+        return $this->successResponse(TopInstructorResource::collection($instructors), 'Top instructors retrieved successfully');
     }
 }

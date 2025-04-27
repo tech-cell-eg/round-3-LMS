@@ -5,7 +5,7 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\InstructorReviewController;
+use App\Http\Controllers\InstructorController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -24,11 +24,11 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     // Instructors routes
-    Route::controller(InstructorReviewController::class)->prefix('instructors')->group(function () {
+    Route::controller(InstructorController::class)->prefix('instructors')->group(function () {
         Route::post('/{id}/review', 'addReview');
     });
 });
 
 Route::apiResource('categories', CategoryController::class);
 
-
+Route::get('/instructors/top',[InstructorController::class, 'topInstructors']);

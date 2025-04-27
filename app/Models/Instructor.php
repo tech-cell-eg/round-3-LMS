@@ -12,6 +12,6 @@ class Instructor extends Model
     }
     public function reviews()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(InstructorReview::class);
     }
 }
