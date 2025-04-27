@@ -23,6 +23,4 @@ trait ApiResponse
             'data' => null,
         ], $code);
     }
-
-
 }
