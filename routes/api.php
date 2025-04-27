@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\StudentController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -27,6 +28,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(InstructorController::class)->prefix('instructors')->group(function () {
         Route::post('/{id}/review', 'addReview');
     });
+    // Students Filter Routes
+    Route::get('/students/courses', [StudentController::class, 'studentCourses']);
+    Route::get('/students/instructors', [StudentController::class, 'studentInstructors']);
+    Route::get('/students/reviews', [StudentController::class, 'studentReviews']);
 });
 
 Route::apiResource('categories', CategoryController::class);

@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             StudentSeeder::class,
             EnrollmentsSeeder::class,
             InstructorReviewSeeder::class,
+            CourseReviewSeeder::class,
         ]);
     }
 }

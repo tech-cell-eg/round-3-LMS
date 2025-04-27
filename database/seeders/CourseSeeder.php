@@ -74,6 +74,13 @@ class CourseSeeder extends Seeder
                 'role' => 'instructor'
             ]);
 
+            // Assign Image to user
+            Image::create([
+                'imageable_type' => User::class,
+                'imageable_id' => $user->id,
+                'path' => 'instructors/default-user.jpg',
+            ]);
+
             // Create instructor profile
             $user->instructor()->create([
                 'bio' => $instructorData['bio'],
@@ -142,7 +149,7 @@ class CourseSeeder extends Seeder
                         ],
                     ],
                 ],
-                'image_path' => 'sample/laravel-course.jpg',
+                'image_path' => 'courses/default-course.jpg',
             ],
             [
                 'title' => 'Advanced PHP Techniques',
@@ -174,7 +181,7 @@ class CourseSeeder extends Seeder
                         ],
                     ],
                 ],
-                'image_path' => 'sample/php-course.jpg',
+                'image_path' => 'courses/default-course.jpg',
             ],
             [
                 'title' => 'JavaScript for Beginners',
@@ -213,7 +220,7 @@ class CourseSeeder extends Seeder
                         ],
                     ],
                 ],
-                'image_path' => 'sample/javascript-course.jpg',
+                'image_path' => 'courses/default-course.jpg',
             ],
             [
                 'title' => 'Data Science with Python',
@@ -245,7 +252,7 @@ class CourseSeeder extends Seeder
                         ],
                     ],
                 ],
-                'image_path' => 'sample/python-course.jpg',
+                'image_path' => 'courses/default-course.jpg',
             ],
             [
                 'title' => 'Digital Marketing Masterclass',
@@ -277,7 +284,7 @@ class CourseSeeder extends Seeder
                         ],
                     ],
                 ],
-                'image_path' => 'sample/marketing-course.jpg',
+                'image_path' => 'courses/default-course.jpg',
             ],
         ];
 
@@ -296,7 +303,7 @@ class CourseSeeder extends Seeder
             Image::create([
                 'imageable_type' => Course::class,
                 'imageable_id' => $course->id,
-                'path' => $courseData['image_path'] ?? 'sample/default-course.jpg',
+                'path' => $courseData['image_path'] ?? 'courses/default-course.jpg',
             ]);
 
             foreach ($syllabi as $syllabusData) {
