@@ -34,7 +34,7 @@ class CourseSeeder extends Seeder
                 'duration' => 360,
                 'level' => 'intermediate',
                 'description' => 'Learn Laravel from scratch with this comprehensive course.',
-                'video_url' => 'https://example.com/courses/laravel-preview.mp4',
+                'video_url' => 'https://www.youtube.com/watch?v=PEo0KmuuzSc',
                 'sale' => 79.99,
                 'language' => 'English',
                 'certificate' => true,
@@ -48,14 +48,14 @@ class CourseSeeder extends Seeder
                         'lessons' => [
                             [
                                 'title' => 'Installation',
-                                'video_url' => 'https://example.com/lessons/laravel-installation.mp4',
+                                'video_url' => 'https://www.youtube.com/watch?v=PEo0KmuuzSc',
                                 'duration' => 15,
                                 'is_preview' => true,
                                 'order' => 1,
                             ],
                             [
                                 'title' => 'Configuration',
-                                'video_url' => 'https://example.com/lessons/laravel-configuration.mp4',
+                                'video_url' => 'https://www.youtube.com/watch?v=PEo0KmuuzSc',
                                 'duration' => 20,
                                 'is_preview' => false,
                                 'order' => 2,
@@ -70,14 +70,14 @@ class CourseSeeder extends Seeder
                         'lessons' => [
                             [
                                 'title' => 'Routing',
-                                'video_url' => 'https://example.com/lessons/laravel-routing.mp4',
+                                'video_url' => 'https://www.youtube.com/watch?v=PEo0KmuuzSc',
                                 'duration' => 25,
                                 'is_preview' => true,
                                 'order' => 1,
                             ],
                             [
                                 'title' => 'Controllers',
-                                'video_url' => 'https://example.com/lessons/laravel-controllers.mp4',
+                                'video_url' => 'https://www.youtube.com/watch?v=PEo0KmuuzSc',
                                 'duration' => 30,
                                 'is_preview' => false,
                                 'order' => 2,
@@ -95,7 +95,7 @@ class CourseSeeder extends Seeder
                 'duration' => 480,
                 'level' => 'advanced',
                 'description' => 'Master advanced PHP concepts and patterns.',
-                'video_url' => 'https://example.com/courses/php-preview.mp4',
+                'video_url' => 'https://www.youtube.com/watch?v=PEo0KmuuzSc',
                 'sale' => 0,
                 'language' => 'English',
                 'certificate' => true,
@@ -109,7 +109,7 @@ class CourseSeeder extends Seeder
                         'lessons' => [
                             [
                                 'title' => 'Singleton Pattern',
-                                'video_url' => 'https://example.com/lessons/php-singleton.mp4',
+                                'video_url' => 'https://www.youtube.com/watch?v=PEo0KmuuzSc',
                                 'duration' => 30,
                                 'is_preview' => true,
                                 'order' => 1,
