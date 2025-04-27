@@ -26,7 +26,9 @@ class CourseIndexResource extends JsonResource
             'discount_price' => $this->sale,
             'duration' => $this->duration,
             'num_syllabi' => $this->syllabi->count(),
-            'num_lessons' => $this->lessons->count(),
+            'num_lessons' => $this->syllabi->sum(function ($syllabus) {
+                return $syllabus->lessons->count();
+            }),
         ];
     }
 }

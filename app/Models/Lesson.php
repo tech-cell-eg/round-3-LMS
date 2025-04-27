@@ -8,7 +8,7 @@ class Lesson extends Model
 {
     public function syllabi()
     {
-        return $this->belongsTo(Syllabi::class);
+        return $this->belongsTo(Syllabi::class, 'syllabus_id');
     }
     public function progress()
     {
