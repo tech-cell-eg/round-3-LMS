@@ -13,14 +13,14 @@ Route::prefix('auth')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/profile', [AuthController::class, 'profile']);
         Route::post('/logout', [AuthController::class, 'logout']);
-
-        // Courses routes
-        Route::controller(CourseController::class)->prefix('courses')->group(function () {
-            Route::get('/', 'index');
-            Route::get('/{id}', 'show');
-            Route::post('/', 'store')->middleware('instructor');
-        });
     });
 });
 
 Route::apiResource('categories', CategoryController::class);
+
+// Courses routes
+Route::controller(CourseController::class)->prefix('courses')->group(function () {
+    Route::get('/', 'index');
+    Route::get('/{id}', 'show');
+    Route::post('/', 'store')->middleware('instructor');
+});
