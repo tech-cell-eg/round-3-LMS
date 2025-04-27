@@ -83,7 +83,7 @@ class User extends Authenticatable
     }
     public function favorites()
     {
-        return $this->belongsToMany(Course::class, 'favorites');
+        return $this->hasMany(Favourite::class);
     }
     // Check if user role is admin
     public function isAdmin()
