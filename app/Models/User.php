@@ -90,4 +90,10 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+    // Check if user role is student
+    public function isStudent()
+    {
+        return $this->role === 'student';
+    }
 }
