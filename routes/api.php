@@ -40,7 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/students/messages', [StudentProfileController::class, 'studentMessages']);
     Route::post('/students/messages/{id}/send', [StudentProfileController::class, 'sendMessage']);
     // Student Courses Routes
-    Route::get('/students/courses/{id}', [StudentCourseController::class, 'myCourse']);
+    Route::get('/students/courses/{id}/', [StudentCourseController::class, 'myCourse']);
 });
 
 Route::apiResource('categories', CategoryController::class);
