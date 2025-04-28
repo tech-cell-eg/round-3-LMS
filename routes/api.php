@@ -5,18 +5,36 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\StudentCourseController;
+use App\Http\Controllers\StudentProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckController;
-
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
+});
 
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::get('/profile', [AuthController::class, 'profile']);
-        Route::post('/logout', [AuthController::class, 'logout']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/auth/profile', [AuthController::class, 'profile']);
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
+
+    // Instructors routes
+    Route::controller(InstructorController::class)->prefix('instructors')->group(function () {
+        Route::post('/{id}/review', 'addReview');
     });
+
+    // Students Filter Routes
+    Route::controller(StudentProfileController::class)->prefix('students')->group(function () {
+        Route::get('/courses','studentCourses');
+        Route::get('/instructors','studentInstructors');
+        Route::get('/reviews', 'studentReviews');
+        Route::get('/messages','studentMessages');
+        Route::post('/messages/{id}/send','sendMessage');
+    });
+    // Student Courses Routes
+    Route::get('/students/courses/{id}/', [StudentCourseController::class, 'myCourse']);
 });
 Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->middleware('auth:sanctum');
@@ -25,6 +43,8 @@ Route::prefix('cart')->group(function () {
 });
 
 Route::apiResource('categories', CategoryController::class);
+
+Route::get('/instructors/top',[InstructorController::class, 'topInstructors']);
 // Courses routes
 Route::controller(CourseController::class)->prefix('courses')->group(function () {
     Route::get('/', 'index');
