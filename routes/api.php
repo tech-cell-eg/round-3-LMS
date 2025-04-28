@@ -8,6 +8,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\StudentProfileController;
+use App\Http\Controllers\StudentProfileShowController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -43,4 +44,11 @@ Route::controller(CourseController::class)->prefix('courses')->group(function ()
     Route::get('/', 'index');
     Route::get('/{id}', 'show');
     Route::post('/', 'store')->middleware('instructor');
+});
+
+// Students Filter Routes with id
+Route::controller(StudentProfileShowController::class)->prefix('students')->group(function () {
+    Route::get('/{id}/courses','studentCourses');
+    Route::get('/{id}/instructors','studentInstructors');
+    Route::get('/{id}/reviews', 'studentReviews');
 });
