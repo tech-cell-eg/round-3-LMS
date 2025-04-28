@@ -18,21 +18,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/auth/profile', [AuthController::class, 'profile']);
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 
-    // Courses routes
-    Route::controller(CourseController::class)->prefix('courses')->group(function () {
-        Route::get('/', 'index');
-        Route::get('/{id}', 'show');
-        Route::post('/', 'store')->middleware('instructor');
-    });
-
     // Instructors routes
     Route::controller(InstructorController::class)->prefix('instructors')->group(function () {
         Route::post('/{id}/review', 'addReview');
-      });
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::get('/profile', [AuthController::class, 'profile']);
-        Route::post('/logout', [AuthController::class, 'logout']);
     });
+
     // Students Filter Routes
     Route::controller(StudentProfileController::class)->prefix('students')->group(function () {
         Route::get('/courses','studentCourses');
