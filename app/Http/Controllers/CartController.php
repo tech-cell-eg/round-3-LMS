@@ -31,7 +31,7 @@ class CartController extends Controller
                   if ($items->isEmpty()) {
             return $this->errorResponse(
                 'No cart items found',
-                404
+                404,
             );}
           return $this->successResponse(
               $items,
@@ -47,8 +47,7 @@ class CartController extends Controller
         );
 
       }
-    
-    }
+        }
     public function store(CartRequest $request)
     {
       try{
