@@ -34,11 +34,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
     });
     // Students Filter Routes
-    Route::get('/students/courses', [StudentProfileController::class, 'studentCourses']);
-    Route::get('/students/instructors', [StudentProfileController::class, 'studentInstructors']);
-    Route::get('/students/reviews', [StudentProfileController::class, 'studentReviews']);
-    Route::get('/students/messages', [StudentProfileController::class, 'studentMessages']);
-    Route::post('/students/messages/{id}/send', [StudentProfileController::class, 'sendMessage']);
+    Route::controller(StudentProfileController::class)->prefix('students')->group(function () {
+        Route::get('/courses','studentCourses');
+        Route::get('/instructors','studentInstructors');
+        Route::get('/reviews', 'studentReviews');
+        Route::get('/messages','studentMessages');
+        Route::post('/messages/{id}/send','sendMessage');
+    });
     // Student Courses Routes
     Route::get('/students/courses/{id}/', [StudentCourseController::class, 'myCourse']);
 });
