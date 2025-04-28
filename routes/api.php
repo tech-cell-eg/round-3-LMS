@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
-use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentCourseController;
+use App\Http\Controllers\StudentProfileController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -29,9 +30,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/{id}/review', 'addReview');
     });
     // Students Filter Routes
-    Route::get('/students/courses', [StudentController::class, 'studentCourses']);
-    Route::get('/students/instructors', [StudentController::class, 'studentInstructors']);
-    Route::get('/students/reviews', [StudentController::class, 'studentReviews']);
+    Route::get('/students/courses', [StudentProfileController::class, 'studentCourses']);
+    Route::get('/students/instructors', [StudentProfileController::class, 'studentInstructors']);
+    Route::get('/students/reviews', [StudentProfileController::class, 'studentReviews']);
+    Route::get('/students/messages', [StudentProfileController::class, 'studentMessages']);
+    Route::post('/students/messages/{id}/send', [StudentProfileController::class, 'sendMessage']);
+    // Student Courses Routes
+    Route::get('/students/courses/{id}', [StudentCourseController::class, 'myCourse']);
 });
 
 Route::apiResource('categories', CategoryController::class);

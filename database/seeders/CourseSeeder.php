@@ -316,7 +316,7 @@ class CourseSeeder extends Seeder
 
                 foreach ($lessons as $lessonData) {
                     Lesson::create(array_merge($lessonData, [
-                        'syllabus_id' => $syllabus->id,
+                        'syllabi_id' => $syllabus->id,
                     ]));
                 }
             }

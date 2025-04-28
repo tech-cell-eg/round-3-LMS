@@ -90,7 +90,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
-    
+
+    public function sender()
+    {
+        return $this->belongsTo(User::class, 'sender_id');
+    }
+
+    public function recipient()
+    {
+        return $this->belongsTo(User::class, 'receiver_id');
+    }
+
     // Check if user role is admin
     public function isAdmin()
     {
