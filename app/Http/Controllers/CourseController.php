@@ -16,24 +16,25 @@ class CourseController extends Controller
     public function index(Request $request)
     {
         try {
-            $validated = $request->vaalidate([
-                'per_page'    => 'integer',
-                'sort_by'     => 'string|in:newest,highest_rating,most_enrolled',
-                'category_id' => 'integer|exists:categories,id',
-                'rating'      => 'numeric|between:0,5',
-                'min_section' => 'integer|min:1',
-                'max_section' => 'integer|gte:min_section',
-                'min_price'   => 'numeric|min:0',
-                'max_price'   => 'numeric|gte:min_price',
-                'search'      => 'string',
+            $validated = $request->validate([
+                'per_page'    => 'nullable|integer',
+                'sort_by'     => 'nullable|string|in:newest,highest_rating,most_enrolled',
+                'category_id' => 'nullable|integer|exists:categories,id',
+                'rating'      => 'nullable|numeric|between:0,5',
+                'min_section' => 'nullable|integer|min:1',
+                'max_section' => 'nullable|integer|gte:min_section',
+                'min_price'   => 'nullable|numeric|min:0',
+                'max_price'   => 'nullable|numeric|gte:min_price',
+                'search'      => 'nullable|string',
             ]);
-            $query = Course::with(['category', 'instructor', 'syllabi', 'reviews', 'enrollments', 'image']);
+
+            $query = Course::with(['category', 'instructor', 'syllabi.lessons', 'reviews', 'enrollments', 'image']);
 
             if (! empty($validated['category_id'])) {
                 $query->where('category_id', $validated['category_id']);
             }
 
-            if (! empty($validated['sort_by'])) {
+             if (! empty($validated['sort_by'])) {
                 if ($validated['sort_by'] === 'newest') {
                     $query->latest();
                 } elseif ($validated['sort_by'] === 'highest_rating') {
@@ -43,17 +44,16 @@ class CourseController extends Controller
                 }
             }
 
-            if (! empty($validated['rating'])) {
-                $query->whereHas('reviews', function ($q) use ($validated) {
-                    $q->where('rating', '>=', $validated['rating']);
-                });
-            }
-
             if (! empty($validated['min_section'])) {
                 $query->where('section', '>=', $validated['min_section']);
             }
             if (! empty($validated['max_section'])) {
                 $query->where('section', '<=', $validated['max_section']);
+            }
+            if (! empty($validated['rating'])) {
+                $query->whereHas('reviews', function ($q) use ($validated) {
+                    $q->where('rating', '>=', $validated['rating']);
+                });
             }
 
             if (! empty($validated['min_price'])) {

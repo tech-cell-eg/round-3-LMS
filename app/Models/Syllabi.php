@@ -14,6 +14,6 @@ class Syllabi extends Model
     }
     public function lessons()
     {
-        return $this->hasMany(Lesson::class);
+        return $this->hasMany(Lesson::class,'syllabus_id');
     }
 }
