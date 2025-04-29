@@ -10,6 +10,7 @@ use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\StudentProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckController;
+use App\Http\Controllers\Dashboard\ReviewsController;
 use App\Http\Controllers\StudentProfileShowController;
 use App\Http\Controllers\CourseCustomer;
 
@@ -37,6 +38,11 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     // Student Courses Routes
     Route::get('/students/courses/{id}/', [StudentCourseController::class, 'myCourse']);
+
+    ################################ Instructor Dashboard Routes ################################
+    Route::controller(ReviewsController::class)->middleware('instructor')->prefix('instructors')->group(function () {
+        Route::get('/reviews', 'myReviews');
+    });
 });
 Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->middleware('auth:sanctum');
