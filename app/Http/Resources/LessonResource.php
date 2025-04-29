@@ -17,7 +17,7 @@ class LessonResource extends JsonResource
         return [
             "id"=> $this->id,
             'title'=> $this->title,
-            'video_url'=>  $this->is_preview == true ? $this->video_url : null,
+            'video_url'=>  $this->video_url == true ? $this->video_url : null,
             'duration'=> $this->duration,
             'is_preview'=> (bool) $this->is_preview,
             'order'=> $this->order,
