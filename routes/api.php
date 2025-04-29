@@ -11,6 +11,7 @@ use App\Http\Controllers\StudentProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckController;
 use App\Http\Controllers\StudentProfileShowController;
+use App\Http\Controllers\CourseCustomer;
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -63,4 +64,7 @@ Route::controller(StudentProfileShowController::class)->prefix('students')->grou
     Route::get('/{id}/courses','studentCourses');
     Route::get('/{id}/instructors','studentInstructors');
     Route::get('/{id}/reviews', 'studentReviews');
+});
+Route::controller(CourseCustomer::class)->prefix('instructorcourse')->group(function () {
+    Route::get('/{id}/enrollments', 'index')->middleware(middleware: ['auth:sanctum', 'instructor']);
 });
