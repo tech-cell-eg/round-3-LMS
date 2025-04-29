@@ -109,7 +109,6 @@ class StudentProfileController extends Controller
                             ->latest()
                             ->get();
 
-
         if ($messages->isEmpty()) {
             return $this->errorResponse('No messages found for this student', 404);
         }

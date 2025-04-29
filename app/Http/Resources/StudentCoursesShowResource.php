@@ -42,11 +42,11 @@ class StudentCoursesShowResource extends JsonResource
                     ? round($this->course->reviews->avg('rating'), 1)
                     : 0,
             ],
-            'progress' => [
-                'percentage' => $progressPercentage,
-                'watched_duration' => $watchedDuration,
-                'course_total_duration' => $totalCourseDuration,
-            ],
+            // 'progress' => [
+            //     'percentage' => $progressPercentage,
+            //     'watched_duration' => $watchedDuration,
+            //     'course_total_duration' => $totalCourseDuration,
+            // ],
         ];
     }
 }
