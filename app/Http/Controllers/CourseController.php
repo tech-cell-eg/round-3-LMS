@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CourseRequests\StoreCourseRequest;
 use App\Http\Resources\CourseIndexResource;
+use App\Http\Resources\CourseShowResource;
 use App\Http\Resources\PaginationResource;
 use App\Models\Course;
 use App\Traits\ApiResponse;
@@ -93,7 +94,7 @@ class CourseController extends Controller
             }
 
             return $this->successResponse([
-                'course' => new CourseIndexResource($course),
+                'course' => new CourseShowResource($course),
             ], 'Course retrieved successfully');
         } catch (\Exception $e) {
             return $this->errorResponse('Failed to retrieve course', 500);
