@@ -16,15 +16,50 @@ class StudentProfileController extends Controller
     public function studentCourses(Request $request)
     {
         $student = $request->user();
-        $courses = $student->enrollments()
-                ->whereHas('course', function($query) {
-                    $query->whereNotNull('instructor_id');
-                })
-                ->with(['course.reviews', 'course.instructor',  'course.image'])
-                ->get();
+
+        $query = $student->enrollments()
+            ->join('courses', 'enrollments.course_id', '=', 'courses.id')
+            ->whereNotNull('courses.instructor_id')
+            ->with(['course.reviews', 'course.instructor', 'course.image', 'course.enrollments'])
+            ->select('enrollments.*');
+
+        // Apply search filter
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('courses.title', 'like', '%'.$search.'%');
+        }
+
+        // Apply sorting
+        if ($request->has('sortBy')) {
+            $sortBy = $request->input('sortBy');
+
+            if ($sortBy === 'newest') {
+                // $query->orderBy('enrollments.created_at', 'desc');
+                $query->orderBy('courses.created_at', 'desc');
+            }
+            elseif ($sortBy === 'highest_rating') {
+                $query->leftJoin('reviews', 'courses.id', '=', 'reviews.course_id')
+                    ->selectRaw('enrollments.*, AVG(reviews.rating) as average_rating')
+                    ->groupBy('enrollments.id')
+                    ->orderBy('average_rating', 'desc');
+            }
+            elseif ($sortBy === 'most_enrolled') {
+                $query->leftJoin('enrollments as course_enrollments', 'courses.id', '=', 'course_enrollments.course_id')
+                    ->selectRaw('enrollments.*, COUNT(course_enrollments.id) as enrollments_count')
+                    ->groupBy('enrollments.id')
+                    ->orderBy('enrollments_count', 'desc');
+            }
+        }
+
+        $courses = $query->get();
+
+        if ($courses->isEmpty()) {
+            return $this->errorResponse('No courses found for this student', 404);
+        }
 
         return $this->successResponse(StudentCoursesResource::collection($courses), 'Student courses retrieved successfully');
     }
+
 
     public function studentInstructors()
     {
@@ -74,7 +109,6 @@ class StudentProfileController extends Controller
                             ->latest()
                             ->get();
 
-
         if ($messages->isEmpty()) {
             return $this->errorResponse('No messages found for this student', 404);
         }
@@ -106,7 +140,7 @@ class StudentProfileController extends Controller
                 $query->where('instructor_id', $receiver->id);
             })
             ->exists();
-            
+
         if (!$isInstructor) {
             return $this->errorResponse(
                 'You are not student with any course with this instructor',

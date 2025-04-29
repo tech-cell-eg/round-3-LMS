@@ -20,7 +20,7 @@ class Course extends Model
     }
     public function syllabi()
     {
-        return $this->hasMany(Syllabi::class);
+        return $this->hasMany(Syllabi::class,'course_id');
     }
     public function enrollments()
     {
@@ -30,12 +30,24 @@ class Course extends Model
     {
         return $this->morphOne(Image::class, 'imageable');
     }
-    public function lessons()
-    {
-        return $this->hasManyThrough(Lesson::class, Syllabi::class);
-    }
     public function favorites()
     {
-        return $this->belongsToMany(User::class, 'favorites');
+        return $this->hasMany(Favourite::class);
+    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function lessonProgress()
+    {
+        return $this->hasManyThrough(
+            LessonProgress::class,
+            Syllabi::class,
+            'course_id',
+            'lesson_id',
+            'id',
+            'id'
+        );
     }
 }

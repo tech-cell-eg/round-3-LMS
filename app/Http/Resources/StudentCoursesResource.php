@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class StudentCoursesResource extends JsonResource
 {
+
     /**
      * Transform the resource into an array.
      *
@@ -15,6 +16,14 @@ class StudentCoursesResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // Calculate progress
+        $totalCourseDuration = $this->course->syllabi()->sum('duration'); // Assuming 'duration' exists in syllabi
+        $watchedDuration = $this->course->lessonProgress()
+            ->where('user_id', $request->user()->id)
+            ->sum('watch_duration');
+
+        $progressPercentage = $totalCourseDuration > 0 ? round(($watchedDuration / $totalCourseDuration) * 100, 2) : 0;
+
         return [
             'course_id' => $this->course?->id,
             'title' => $this->course?->title,
@@ -29,6 +38,11 @@ class StudentCoursesResource extends JsonResource
                     ? round($this->course->reviews->avg('rating'), 1)
                     : 0,
             ] : null,
+            'progress' => [
+                'percentage' => $progressPercentage,
+                'watched_duration' => $watchedDuration,
+                'course_total_duration' => $totalCourseDuration,
+            ],
         ];
     }
 }
