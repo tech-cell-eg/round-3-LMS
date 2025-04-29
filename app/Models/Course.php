@@ -38,4 +38,16 @@ class Course extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function lessonProgress()
+    {
+        return $this->hasManyThrough(
+            LessonProgress::class,
+            Syllabi::class,
+            'course_id',
+            'lesson_id',
+            'id',
+            'id'
+        );
+    }
 }

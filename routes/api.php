@@ -10,6 +10,7 @@ use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\StudentProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckController;
+use App\Http\Controllers\StudentProfileShowController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -55,4 +56,11 @@ Route::prefix('checkout')->group(function () {
     Route::get('/', [CheckController::class, 'checkout'])->middleware('auth:sanctum');
     Route::get('/success', [CheckController::class, 'success'])->middleware('auth:sanctum')->name('paypal.success');
     Route::get('/cancel', [CheckController::class, 'cancel'])->middleware('auth:sanctum')->name('paypal.cancel');
+});
+
+// Students Filter Routes with id
+Route::controller(StudentProfileShowController::class)->prefix('students')->group(function () {
+    Route::get('/{id}/courses','studentCourses');
+    Route::get('/{id}/instructors','studentInstructors');
+    Route::get('/{id}/reviews', 'studentReviews');
 });
