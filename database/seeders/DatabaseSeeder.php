@@ -24,11 +24,11 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             CourseSeeder::class,
             StudentSeeder::class,
+            CouponsSeeder::class,
             EnrollmentsSeeder::class,
             InstructorReviewSeeder::class,
             CourseReviewSeeder::class,
             LessonProgressSeeder::class,
-            CouponsSeeder::class,
             CertificationsSeeder::class,
         ]);
     }
