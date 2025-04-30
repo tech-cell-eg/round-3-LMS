@@ -1,15 +1,14 @@
 <?php
 namespace App\Http\Controllers;
-
-use App\Http\Requests\CourseRequests\StoreCourseRequest;
-use App\Http\Resources\CourseIndexResource;
-use App\Http\Resources\CourseShowResource;
-use App\Http\Resources\PaginationResource;
 use App\Models\Course;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\CourseShowResource;
+use App\Http\Resources\PaginationResource;
+use App\Http\Resources\CourseIndexResource;
+use App\Http\Requests\CourseRequests\StoreCourseRequest;
 
 class CourseController extends Controller
 {
@@ -35,7 +34,7 @@ class CourseController extends Controller
                 $query->where('category_id', $validated['category_id']);
             }
 
-             if (! empty($validated['sort_by'])) {
+            if (! empty($validated['sort_by'])) {
                 if ($validated['sort_by'] === 'newest') {
                     $query->latest();
                 } elseif ($validated['sort_by'] === 'highest_rating') {
@@ -80,7 +79,7 @@ class CourseController extends Controller
             ], 'Courses retrieved successfully');
 
         } catch (\Exception $e) {
-            return $this->errorResponse('Failed to retrieve courses', 500);
+            return $this->errorResponse('Failed to retrieve courses ' . $e->getMessage(), 500);
         }
     }
 
