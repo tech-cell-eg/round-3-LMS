@@ -57,6 +57,7 @@ Route::prefix('cart')->group(function () {
 Route::apiResource('categories', CategoryController::class);
 
 Route::get('/instructors/top',[InstructorController::class, 'topInstructors']);
+Route::get('/instructors/changetoInstructor',[InstructorController::class, 'changetoInstructor'])->middleware('auth:sanctum');
 // Courses routes
 Route::controller(CourseController::class)->prefix('courses')->group(function () {
     Route::get('/', 'index');

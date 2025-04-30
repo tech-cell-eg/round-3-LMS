@@ -8,6 +8,7 @@ use App\Models\Instructor;
 use App\Models\InstructorReview;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth ;
 
 class InstructorController extends Controller
 {
@@ -41,5 +42,19 @@ class InstructorController extends Controller
             ->get();
 
         return $this->successResponse(TopInstructorResource::collection($instructors), 'Top instructors retrieved successfully');
+    }
+
+    public function changetoInstructor()
+    {
+        $user = Auth::user();
+        if ($user->role == 'instructor') {
+            return $this->errorResponse('You are already an instructor', 403);
+        }
+        $user->role = 'instructor';
+        $user->save();
+        return $this->successResponse([
+          'user_id'=>$user->id,
+          'new_role'=>'instructor',
+      ], 'User changed to instructor successfully');
     }
 }
