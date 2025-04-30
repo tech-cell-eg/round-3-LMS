@@ -39,6 +39,10 @@ class Course extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function certifications()
+    {
+        return $this->hasMany(Certification::class);
+    }
     public function lessonProgress()
     {
         return $this->hasManyThrough(

@@ -17,13 +17,16 @@ class ShowMyCourseResource extends JsonResource
     {
         $course = $this->course;
 
+        $courseCertification = $this->user->certifications
+            ->firstWhere('course_id', $course->id);
+
         return [
             "id" => $course->id,
             "title" => $course->title,
             "image" => $course->image ? asset('storage/' . $course->image->path) : null,
             "video_url" => $course->video_url,
             "description" => $course->description,
-            "duration" => $course->duration,
+            "duration_in_mins" => $course->duration,
             "level" => $course->level,
             'syllabi' => SyllabusResource::collection($course->syllabi),
 
@@ -36,6 +39,11 @@ class ShowMyCourseResource extends JsonResource
             ] : null,
 
             'reviews' => ReviewResource::collection($course->reviews),
+            'certification' => $courseCertification ? [
+                'id' => $courseCertification->id,
+                'can_take_certification' => $courseCertification ? true : false,
+                'issued_date' => $courseCertification->issued_date,
+            ] : null,
         ];
     }
 
