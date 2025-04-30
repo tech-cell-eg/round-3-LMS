@@ -87,6 +87,8 @@ class CheckController extends Controller
                     Enrollment::create([
                         'user_id' => Auth::id(),
                         'course_id' => $item->course_id,
+                        'total_price' => $item->price,
+
                     ]);
                 }
     

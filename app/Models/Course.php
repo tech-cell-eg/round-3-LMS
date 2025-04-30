@@ -50,4 +50,5 @@ class Course extends Model
             'id'
         );
     }
+
 }

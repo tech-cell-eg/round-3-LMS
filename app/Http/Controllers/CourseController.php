@@ -1,6 +1,5 @@
 <?php
 namespace App\Http\Controllers;
-
 use App\Models\Course;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -97,7 +96,7 @@ class CourseController extends Controller
                 'course' => new CourseShowResource($course),
             ], 'Course retrieved successfully');
         } catch (\Exception $e) {
-            return $this->errorResponse('Failed to retrieve course', 500);
+            return $this->errorResponse('Failed to retrieve course'.$e->getMessage(), 500);
         }
     }
 

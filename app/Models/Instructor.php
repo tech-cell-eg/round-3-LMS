@@ -14,4 +14,9 @@ class Instructor extends Model
     {
         return $this->hasMany(InstructorReview::class);
     }
+
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class);
+    }
 }

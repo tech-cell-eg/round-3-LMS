@@ -10,7 +10,10 @@ use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\StudentProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckController;
+use App\Http\Controllers\Dashboard\ReviewsController;
 use App\Http\Controllers\StudentProfileShowController;
+use App\Http\Controllers\CourseCustomer;
+use App\Http\Controllers\Dashboard\CouponsController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -36,6 +39,14 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     // Student Courses Routes
     Route::get('/students/courses/{id}/', [StudentCourseController::class, 'myCourse']);
+
+    ################################ Instructor Dashboard Routes ################################
+    Route::controller(ReviewsController::class)->middleware('instructor')->prefix('instructors')->group(function () {
+        Route::get('/reviews', 'myReviews');
+    });
+    Route::controller(CouponsController::class)->middleware('instructor')->prefix('instructors')->group(function () {
+        Route::get('/coupons', 'myCoupons');
+    });
 });
 Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->middleware('auth:sanctum');
@@ -63,4 +74,7 @@ Route::controller(StudentProfileShowController::class)->prefix('students')->grou
     Route::get('/{id}/courses','studentCourses');
     Route::get('/{id}/instructors','studentInstructors');
     Route::get('/{id}/reviews', 'studentReviews');
+});
+Route::controller(CourseCustomer::class)->prefix('instructorcourse')->group(function () {
+    Route::get('/{id}/enrollments', 'index')->middleware(middleware: ['auth:sanctum', 'instructor']);
 });

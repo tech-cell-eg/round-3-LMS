@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -60,10 +61,28 @@ class StudentSeeder extends Seeder
             ],
         ];
 
-        foreach ($students as $student) {
-            User::firstOrCreate(
-                ['email' => $student['email']],
-                $student
+        foreach ($students as $studentData) {
+            // Create or get the student
+            $student = User::firstOrCreate(
+                ['email' => $studentData['email']],
+                [
+                    'first_name' => $studentData['first_name'],
+                    'last_name' => $studentData['last_name'],
+                    'username' => $studentData['username'],
+                    'password' => $studentData['password'],
+                    'role' => $studentData['role'],
+                ]
+            );
+
+            // Create avatar image for the student
+            Image::updateOrCreate(
+                [
+                    'imageable_type' => User::class,
+                    'imageable_id' => $student->id,
+                ],
+                [
+                    'path' => $studentData['image_path'] ?? 'students/default-user.jpg',
+                ]
             );
         }
     }
