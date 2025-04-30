@@ -18,7 +18,7 @@ class SyllabusResource extends JsonResource
             "id"=> $this->id,
             'title'=> $this->title,
             'description'=> $this->description,
-            'duration'=> $this->duration,
+            'duration_in_mins'=> $this->duration,
             'order'=> $this->order,
             'lessons'=> LessonResource::collection($this->lessons),
         ];

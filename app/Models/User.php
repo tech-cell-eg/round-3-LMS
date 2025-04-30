@@ -101,6 +101,11 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'receiver_id');
     }
 
+    public function certifications()
+    {
+        return $this->hasMany(Certification::class);
+    }
+
     // Check if user role is admin
     public function isAdmin()
     {
@@ -112,6 +117,5 @@ class User extends Authenticatable
     {
         return $this->role === 'student';
     }
-  
 
 }

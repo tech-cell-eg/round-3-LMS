@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('syllabi_id')->constrained()->onDelete('cascade');
             $table->string('title');
-            $table->string('video_url');
+            $table->enum('type', ['video', 'text', 'url']);
+            $table->string('lesson_url')->nullable();
+            $table->longText('text')->nullable();
             $table->integer('duration')->nullable();
             $table->boolean('is_preview')->default(false);
             $table->unsignedInteger('order')->default(0);
