@@ -47,6 +47,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(CouponsController::class)->middleware('instructor')->prefix('instructors')->group(function () {
         Route::get('/coupons', 'myCoupons');
     });
+    Route::apiResource('coupons', CouponsCrudController::class)->middleware('instructor')->except(['show']);
 });
 Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->middleware('auth:sanctum');
