@@ -15,42 +15,39 @@ class EnrollmentsSeeder extends Seeder
     public function run(): void
     {
         $enrollments = [
-            ['user_id' => 6, 'course_id' => 1, 'enrollment_date' => now()],
-            ['user_id' => 7, 'course_id' => 1, 'enrollment_date' => now()],
-            ['user_id' => 8, 'course_id' => 1, 'enrollment_date' => now()],
-            ['user_id' => 9, 'course_id' => 1, 'enrollment_date' => now()],
-            ['user_id' => 10, 'course_id' => 1, 'enrollment_date' => now()],
-            ['user_id' => 11, 'course_id' => 1, 'enrollment_date' => now()],
-            ['user_id' => 6, 'course_id' => 2, 'enrollment_date' => now()],
-            ['user_id' => 7, 'course_id' => 2, 'enrollment_date' => now()],
-            ['user_id' => 8, 'course_id' => 2, 'enrollment_date' => now()],
-            ['user_id' => 9, 'course_id' => 2, 'enrollment_date' => now()],
-            ['user_id' => 10, 'course_id' => 2, 'enrollment_date' => now()],
-            ['user_id' => 6, 'course_id' => 3, 'enrollment_date' => now()],
-            ['user_id' => 7, 'course_id' => 3, 'enrollment_date' => now()],
-            ['user_id' => 8, 'course_id' => 3, 'enrollment_date' => now()],
-            ['user_id' => 9, 'course_id' => 3, 'enrollment_date' => now()],
-            ['user_id' => 6, 'course_id' => 4, 'enrollment_date' => now()],
-            ['user_id' => 7, 'course_id' => 4, 'enrollment_date' => now()],
-            ['user_id' => 8, 'course_id' => 4, 'enrollment_date' => now()],
-            ['user_id' => 6, 'course_id' => 5, 'enrollment_date' => now()],
-            ['user_id' => 7, 'course_id' => 5, 'enrollment_date' => now()],
+            ['user_id' => 6, 'course_id' => 1],
+            ['user_id' => 7, 'course_id' => 1],
+            ['user_id' => 8, 'course_id' => 1],
+            ['user_id' => 9, 'course_id' => 1],
+            ['user_id' => 10, 'course_id' => 1],
+            ['user_id' => 11, 'course_id' => 1],
+            ['user_id' => 6, 'course_id' => 2],
+            ['user_id' => 7, 'course_id' => 2],
+            ['user_id' => 8, 'course_id' => 2],
+            ['user_id' => 9, 'course_id' => 2],
+            ['user_id' => 10, 'course_id' => 2],
+            ['user_id' => 6, 'course_id' => 3],
+            ['user_id' => 7, 'course_id' => 3],
+            ['user_id' => 8, 'course_id' => 3],
+            ['user_id' => 9, 'course_id' => 3],
+            ['user_id' => 6, 'course_id' => 4],
+            ['user_id' => 7, 'course_id' => 4],
+            ['user_id' => 8, 'course_id' => 4],
+            ['user_id' => 6, 'course_id' => 5],
+            ['user_id' => 7, 'course_id' => 5],
         ];
 
         foreach ($enrollments as $enrollment) {
-            // Create or find enrollment
+
+            $course = Course::find($enrollment['course_id']);
+            $coursePrice = $course->price;
             $enrollmentRecord = Enrollment::firstOrCreate(
                 [
                     'user_id' => $enrollment['user_id'],
                     'course_id' => $enrollment['course_id'],
+                    'total_price' => $coursePrice,
                 ],
-                [
-                    'enrollment_date' => $enrollment['enrollment_date'],
-                ]
             );
-
-            // Always increment student's instructor, no matter if enrollment existed or not
-            $course = Course::find($enrollment['course_id']);
 
             if ($course) {
                 $instructor = Instructor::where('user_id', $course->instructor_id)->first();
