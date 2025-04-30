@@ -159,7 +159,7 @@ class CourseSeeder extends Seeder
                 'duration' => 480,
                 'level' => 'advanced',
                 'description' => 'Master advanced PHP concepts and patterns.',
-                'video_url' => 'https://www.youtube.com/watch?v=PEo0KmuuzSc',
+                'video_url' => 'https://fb.watch/zgTCkP3RYg/',
                 'sale' => 0,
                 'language' => 'English',
                 'certificate' => true,
