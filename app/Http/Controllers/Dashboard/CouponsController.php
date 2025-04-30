@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCouponRequest;
+use App\Http\Requests\UpdateCouponRequest;
 use App\Http\Resources\Dashboard\CouponsResource;
 use App\Http\Resources\PaginationResource;
 use App\Models\Coupon;
@@ -13,7 +15,7 @@ use Illuminate\Http\Request;
 class CouponsController extends Controller
 {
     use ApiResponse;
-    public function myCoupons(Request $request)
+    public function index(Request $request)
     {
         $instructor = $request->user();
 
@@ -40,5 +42,45 @@ class CouponsController extends Controller
             ],
             'Coupons fetched successfully.'
         );
+    }
+
+    public function show(Coupon $coupon)
+    {
+        return $this->successResponse($coupon, 'Category retrieved successfully');
+    }
+    public function store(StoreCouponRequest $request)
+    {
+        $validatedData = $request->validated();
+        $validatedData['instructor_id'] = $request->user()->id;
+
+        $coupon = Coupon::create($validatedData);
+
+        return $this->successResponse($coupon, 'Coupon created successfully');
+    }
+    public function update(UpdateCouponRequest $request, Coupon $coupon)
+    {
+        $validatedData = $request->validated();
+        $validatedData['instructor_id'] = $request->user()->id;
+        $coupon->update($validatedData);
+
+        return $this->successResponse($coupon, 'Coupon updated successfully');
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $coupon = Coupon::findOrFail($id);
+
+            if ($coupon->instructor_id !== auth()->user()->id) {
+                return $this->errorResponse('Unauthorized action.', 403);
+            }
+
+            $coupon->delete();
+
+            return $this->successResponse(null, 'Coupon deleted successfully');
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return $this->errorResponse('Coupon not found.', 404);
+        }
     }
 }
