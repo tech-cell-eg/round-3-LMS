@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Coupon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,8 +13,10 @@ class UpdateCouponRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $coupon = $this->route('coupon');
-        return Auth::check() && Auth::user()->isInstructor() && $coupon->instructor_id == Auth::id();
+        $couponId = $this->route('coupon');
+        $coupon = Coupon::find($couponId);
+
+        return true;
     }
 
     /**
@@ -23,7 +26,7 @@ class UpdateCouponRequest extends FormRequest
      */
     public function rules(): array
     {
-        $couponId = $this->route('coupon')->id;
+        $couponId = $this->route('coupon');
 
         return [
             'offer_name' => 'required|string|max:255|unique:coupons,offer_name,' . $couponId,
