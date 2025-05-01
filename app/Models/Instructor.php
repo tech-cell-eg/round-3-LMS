@@ -29,6 +29,10 @@ class Instructor extends Model
         return $this->hasMany(Course::class);
     }
 
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
     public function areas()
     {
         return $this->hasMany(InstructorArea::class);

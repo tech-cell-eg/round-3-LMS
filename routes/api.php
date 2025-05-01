@@ -11,9 +11,13 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\StudentProfileController;
-use App\Http\Controllers\StudentProfileShowController;
+use App\Http\Controllers\CertificationController;
 use App\Http\Controllers\Dashboard\ReviewsController;
+use App\Http\Controllers\InstructorAreaController;
+use App\Http\Controllers\StudentProfileShowController;
 use App\Http\Controllers\Dashboard\CouponsController;
+use App\Http\Controllers\Dashboard\CouponsCrudController;
+use App\Models\Certification;
 use App\Http\Controllers\CertificationController;
 use App\Http\Controllers\InstructorAreaController;
 
