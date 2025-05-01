@@ -12,7 +12,7 @@ class Course extends Model
     }
     public function students()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class,'course_user');
     }
     public function reviews()
     {
