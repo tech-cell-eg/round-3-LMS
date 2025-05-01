@@ -46,6 +46,11 @@ class CouponsController extends Controller
 
     public function show(Coupon $coupon)
     {
+        $coupon = Coupon::findOrFail($coupon->id);
+        if (!$coupon) {
+            return $this->errorResponse('Coupon not found.', 404);
+        }
+
         return $this->successResponse($coupon, 'Category retrieved successfully');
     }
     public function store(StoreCouponRequest $request)
@@ -59,6 +64,11 @@ class CouponsController extends Controller
     }
     public function update(UpdateCouponRequest $request, Coupon $coupon)
     {
+        $coupon = Coupon::findOrFail($coupon->id);
+        if (!$coupon) {
+            return $this->errorResponse('Coupon not found.', 404);
+        }
+
         $validatedData = $request->validated();
         $validatedData['instructor_id'] = $request->user()->id;
         $coupon->update($validatedData);
