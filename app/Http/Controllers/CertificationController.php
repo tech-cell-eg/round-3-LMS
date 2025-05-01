@@ -14,7 +14,7 @@ class CertificationController extends Controller
     {
         $certification = Certification::with([
             'user',
-            'course.instructor.user' // This ensures all needed relationships are loaded
+            'course.instructor.user'
         ])->find($id);
 
         if (!$certification) {
