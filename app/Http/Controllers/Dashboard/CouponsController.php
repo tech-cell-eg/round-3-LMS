@@ -11,6 +11,7 @@ use App\Models\Coupon;
 use App\Models\Enrollment;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CouponsController extends Controller
 {
@@ -44,11 +45,15 @@ class CouponsController extends Controller
         );
     }
 
-    public function show(Coupon $coupon)
+    public function show($coupon)
     {
-        $coupon = Coupon::findOrFail($coupon->id);
+        $coupon = Coupon::find($coupon);
         if (!$coupon) {
             return $this->errorResponse('Coupon not found.', 404);
+        }
+
+        if ($coupon->instructor_id !== auth()->user()->id) {
+            return $this->errorResponse('Unauthorized action.', 403);
         }
 
         return $this->successResponse($coupon, 'Category retrieved successfully');
@@ -62,11 +67,15 @@ class CouponsController extends Controller
 
         return $this->successResponse($coupon, 'Coupon created successfully');
     }
-    public function update(UpdateCouponRequest $request, Coupon $coupon)
+    public function update(UpdateCouponRequest $request, $coupon)
     {
-        $coupon = Coupon::findOrFail($coupon->id);
+        $coupon = Coupon::find($coupon);
         if (!$coupon) {
             return $this->errorResponse('Coupon not found.', 404);
+        }
+
+        if ($coupon->instructor_id !== Auth::id()) {
+            return $this->errorResponse('Unauthorized action.', 403);
         }
 
         $validatedData = $request->validated();
