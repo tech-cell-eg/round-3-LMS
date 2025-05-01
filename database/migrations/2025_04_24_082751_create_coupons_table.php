@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('type', ['percentage', 'fixed_amount'])->default('percentage');
             $table->integer('amount');
             $table->integer('quantity')->default(0);
-            $table->integer('redemptions')->nullable();
+            $table->integer('redemptions')->default(0);
             $table->enum('status', ['active', 'expired' , 'draft' , 'scheduled'])->default('active');
             $table->timestamps();
         });

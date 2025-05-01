@@ -14,6 +14,7 @@ use App\Http\Controllers\Dashboard\ReviewsController;
 use App\Http\Controllers\StudentProfileShowController;
 use App\Http\Controllers\CourseCustomer;
 use App\Http\Controllers\Dashboard\CouponsController;
+use App\Http\Controllers\Dashboard\CouponsCrudController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -44,9 +45,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(ReviewsController::class)->middleware('instructor')->prefix('instructors')->group(function () {
         Route::get('/reviews', 'myReviews');
     });
-    Route::controller(CouponsController::class)->middleware('instructor')->prefix('instructors')->group(function () {
-        Route::get('/coupons', 'myCoupons');
-    });
+
+    Route::apiResource('/instructors/coupons', CouponsController::class)->middleware('instructor');
 });
 Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->middleware('auth:sanctum');

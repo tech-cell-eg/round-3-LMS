@@ -40,7 +40,7 @@ class CouponsSeeder extends Seeder
                 'updated_at' => Carbon::now()
             ],
             [
-                'instructor_id' => 2,
+                'instructor_id' => 1,
                 'offer_name' => 'Flash Sale',
                 'code' => 'FLASH50',
                 'type' => 'fixed_amount',
@@ -64,7 +64,7 @@ class CouponsSeeder extends Seeder
                 'updated_at' => Carbon::now()
             ],
             [
-                'instructor_id' => 3,
+                'instructor_id' => 2,
                 'offer_name' => 'Weekend Special',
                 'code' => 'WEEKEND15',
                 'type' => 'percentage',

@@ -15,12 +15,14 @@ class LessonResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id"=> $this->id,
-            'title'=> $this->title,
-            'video_url'=>  $this->video_url == true ? $this->video_url : null,
-            'duration'=> $this->duration,
-            'is_preview'=> (bool) $this->is_preview,
-            'order'=> $this->order,
+            "id" => $this->id,
+            'title' => $this->title,
+            'type' => $this->type ?: null,
+            'lesson_url' => $this->type === 'text' ? null : ($this->lesson_url ?: null),
+            'text' => $this->type === 'text' ? $this->text : null,
+            'duration_in_mins' => $this->duration,
+            'completed' => (bool) $this->is_preview,
+            'order' => $this->order,
         ];
     }
 }

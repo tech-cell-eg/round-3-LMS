@@ -101,20 +101,30 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'receiver_id');
     }
 
+    public function certifications()
+    {
+        return $this->hasMany(Certification::class);
+    }
+
     // Check if user role is admin
     public function isAdmin()
     {
         return $this->role === 'admin';
     }
 
+    // Check if user role is instructor
+    public function isInstructor()
+    {
+        return $this->role === 'instructor';
+    }
     // Check if user role is student
     public function isStudent()
     {
         return $this->role === 'student';
     }
+
     public function courses()
     {
         return $this->belongsToMany(Course::class, 'course_user');
     }
-
 }
