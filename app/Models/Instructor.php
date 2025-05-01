@@ -19,4 +19,9 @@ class Instructor extends Model
     {
         return $this->hasMany(Coupon::class);
     }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
 }
