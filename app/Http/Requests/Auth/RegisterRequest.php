@@ -29,7 +29,7 @@ class RegisterRequest extends FormRequest
             'password' => 'required|min:8|regex:/[a-zA-Z]/',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'role' => 'required|in:student,instructor',
-            'bio' => 'required_if:role,instructor|string|nullable',
+            'description' => 'required_if:role,instructor|string|nullable',
             'title' => 'required_if:role,instructor|string|nullable',
             'experience' => 'required_if:role,instructor|string|nullable',
         ];

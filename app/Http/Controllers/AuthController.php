@@ -51,9 +51,13 @@ class AuthController extends Controller
         if ($data['role'] === 'instructor') {
             $user->instructor()->create([
                 'title' => $data['title'],
-                'bio' => $data['bio'],
-                'field' => $data['experience'],
+                'description' => $data['description'],
+                'experience' => $data['experience'],
             ]);
+
+            if (!empty($data['areas'])) {
+                $user->instructor->areas()->attach($data['areas']);
+            }
         }
 
         $user['token'] = $user->createToken('auth_token')->plainTextToken;

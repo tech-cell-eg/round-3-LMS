@@ -8,8 +8,8 @@ class Instructor extends Model
 {
     protected $fillable = [
         'title',
-        'bio',
-        'field',
+        'description',
+        'experience',
     ];
     public function user()
     {
@@ -23,5 +23,10 @@ class Instructor extends Model
     public function coupons()
     {
         return $this->hasMany(Coupon::class);
+    }
+
+    public function areas()
+    {
+        return $this->hasMany(InstructorArea::class);
     }
 }

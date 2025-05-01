@@ -17,8 +17,8 @@ class InstructorResource extends JsonResource
         return [
             'instructor_id' => $this->id,
             'title' => $this->title,
-            'bio' => $this->bio,
-            'exprince' => $this->field,
+            'description' => $this->description,
+            'experience' => $this->experience,
             'total_reviews' => $this->total_reviews,
             'total_students' => $this->total_students,
             'total_courses' => $this->total_courses,

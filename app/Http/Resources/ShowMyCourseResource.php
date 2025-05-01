@@ -31,7 +31,7 @@ class ShowMyCourseResource extends JsonResource
                 'id' => $course->instructor->id,
                 'name' => $course->instructor->first_name . ' ' . $course->instructor->last_name,
                 'title' => $course->instructor->instructor->title,
-                'bio' => $course->instructor->instructor->bio,
+                'description' => $course->instructor->instructor->description,
                 'image' => $course->instructor->avatar ? url(Storage::url($course->instructor->avatar->path)) : null,
             ] : null,
 
