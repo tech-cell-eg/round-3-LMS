@@ -57,4 +57,13 @@ class InstructorController extends Controller
           'new_role'=>'instructor',
       ], 'User changed to instructor successfully');
     }
+    public function reviewsCourses(){
+        $user = Auth::user();
+        $instructor = Instructor::where('user_id', $user->id)->first();
+        if (!$instructor) {
+            return $this->errorResponse('No instructor found', 404);
+        }
+        $reviews = InstructorReview::where('instructor_id', $instructor->id)->with('user')->get();
+        return $this->successResponse($reviews, 'Instructor reviews retrieved successfully');
+    }
 }
