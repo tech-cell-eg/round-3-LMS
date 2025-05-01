@@ -11,11 +11,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\StudentProfileController;
-use App\Http\Controllers\InstructorAreaController;
 use App\Http\Controllers\StudentProfileShowController;
 use App\Http\Controllers\Dashboard\ReviewsController;
 use App\Http\Controllers\Dashboard\CouponsController;
-use App\Http\Controllers\Dashboard\CouponsCrudController;
+use App\Http\Controllers\CertificationController;
+use App\Http\Controllers\InstructorAreaController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -81,3 +81,6 @@ Route::controller(StudentProfileShowController::class)->prefix('students')->grou
 Route::controller(CourseCustomer::class)->prefix('instructorcourse')->group(function () {
     Route::get('/{id}/enrollments', 'index')->middleware(middleware: ['auth:sanctum', 'instructor']);
 });
+
+
+Route::get('/students/certifications/{id}',[CertificationController::class, 'getCertification']);
