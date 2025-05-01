@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('instructors', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
-            $table->text('bio')->nullable();
+            $table->text('description')->nullable();
+            $table->string('experience')->nullable();
             $table->integer('total_reviews')->default(0);
             $table->integer('total_students')->default(0);
             $table->integer('total_courses')->default(0);
-            $table->string('field');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

@@ -21,45 +21,45 @@ class CourseSeeder extends Seeder
                 'last_name' => 'Doe',
                 'email' => 'john.doe@example.com',
                 'username' => 'john_doe',
-                'bio' => 'Senior Laravel developer with 8 years of experience',
+                'description' => 'Senior Laravel developer with 8 years of experience',
                 'title' => 'Web Development Expert',
-                'field' => 'Web Development'
+                'experience' => 'Web Development'
             ],
             [
                 'first_name' => 'Sarah',
                 'last_name' => 'Smith',
                 'email' => 'sarah.smith@example.com',
                 'username' => 'sarah_smith',
-                'bio' => 'Data science specialist with Python expertise',
+                'description' => 'Data science specialist with Python expertise',
                 'title' => 'Data Science Instructor',
-                'field' => 'Data Science'
+                'experience' => 'Data Science'
             ],
             [
                 'first_name' => 'Michael',
                 'last_name' => 'Johnson',
                 'email' => 'michael.johnson@example.com',
                 'username' => 'michael_j',
-                'bio' => 'UI/UX designer focused on user experience',
+                'description' => 'UI/UX designer focused on user experience',
                 'title' => 'UX Design Lead',
-                'field' => 'UI/UX Design'
+                'experience' => 'UI/UX Design'
             ],
             [
                 'first_name' => 'Emily',
                 'last_name' => 'Williams',
                 'email' => 'emily.williams@example.com',
                 'username' => 'emily_w',
-                'bio' => 'Digital marketing strategist and SEO expert',
+                'description' => 'Digital marketing strategist and SEO expert',
                 'title' => 'Marketing Specialist',
-                'field' => 'Digital Marketing'
+                'experience' => 'Digital Marketing'
             ],
             [
                 'first_name' => 'David',
                 'last_name' => 'Brown',
                 'email' => 'david.brown@example.com',
                 'username' => 'david_b',
-                'bio' => 'Cybersecurity consultant and ethical hacker',
+                'description' => 'Cybersecurity consultant and ethical hacker',
                 'title' => 'Security Consultant',
-                'field' => 'Cyber Security'
+                'experience' => 'Cyber Security'
             ]
         ];
 
@@ -83,9 +83,9 @@ class CourseSeeder extends Seeder
 
             // Create instructor profile
             $user->instructor()->create([
-                'bio' => $instructorData['bio'],
+                'description' => $instructorData['description'],
                 'title' => $instructorData['title'],
-                'field' => $instructorData['field']
+                'experience' => $instructorData['experience']
             ]);
         }
 
