@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\UserResource;
+use App\Models\InstructorArea;
 use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -54,10 +55,6 @@ class AuthController extends Controller
                 'description' => $data['description'],
                 'experience' => $data['experience'],
             ]);
-
-            if (!empty($data['areas'])) {
-                $user->instructor->areas()->attach($data['areas']);
-            }
         }
 
         $user['token'] = $user->createToken('auth_token')->plainTextToken;
