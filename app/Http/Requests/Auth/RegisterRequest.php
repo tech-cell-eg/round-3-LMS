@@ -29,8 +29,9 @@ class RegisterRequest extends FormRequest
             'password' => 'required|min:8|regex:/[a-zA-Z]/',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'role' => 'required|in:student,instructor',
-            'bio' => 'required_if:role,instructor|string|nullable',
+            'description' => 'required_if:role,instructor|string|nullable',
             'title' => 'required_if:role,instructor|string|nullable',
+            'experience' => 'required_if:role,instructor|string|nullable',
         ];
     }
 
@@ -55,6 +56,8 @@ class RegisterRequest extends FormRequest
             'bio.string' => 'Bio must be a string.',
             'title.required_if' => 'Title is required for instructors.',
             'title.string' => 'Title must be a string.',
+            'experience.required_if' => 'Experience is required for instructors.',
+            'experience.string' => 'Experience must be a string.',
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\UserResource;
+use App\Models\InstructorArea;
 use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -50,9 +51,9 @@ class AuthController extends Controller
 
         if ($data['role'] === 'instructor') {
             $user->instructor()->create([
-                'bio' => $data['bio'],
                 'title' => $data['title'],
-                'field' => "null",
+                'description' => $data['description'],
+                'experience' => $data['experience'],
             ]);
         }
 
