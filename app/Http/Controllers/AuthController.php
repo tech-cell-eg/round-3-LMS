@@ -50,9 +50,9 @@ class AuthController extends Controller
 
         if ($data['role'] === 'instructor') {
             $user->instructor()->create([
-                'bio' => $data['bio'],
                 'title' => $data['title'],
-                'field' => "null",
+                'bio' => $data['bio'],
+                'field' => $data['experience'],
             ]);
         }
 

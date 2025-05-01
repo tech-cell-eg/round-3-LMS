@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Instructor extends Model
 {
+    protected $fillable = [
+        'title',
+        'bio',
+        'field',
+    ];
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -18,10 +18,10 @@ class InstructorResource extends JsonResource
             'instructor_id' => $this->id,
             'title' => $this->title,
             'bio' => $this->bio,
+            'exprince' => $this->field,
             'total_reviews' => $this->total_reviews,
             'total_students' => $this->total_students,
             'total_courses' => $this->total_courses,
-            // Add more data if needed
         ];
     }
 }
