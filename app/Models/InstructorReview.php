@@ -10,4 +10,9 @@ class InstructorReview extends Model
     {
         return $this->belongsTo(Instructor::class,'instructor_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
 }
