@@ -19,6 +19,7 @@ class InstructorResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'experience' => $this->experience,
+            'areas' => InstructorAreaResource::collection($this->areas),
             'total_reviews' => $this->total_reviews,
             'total_students' => $this->total_students,
             'total_courses' => $this->total_courses,
