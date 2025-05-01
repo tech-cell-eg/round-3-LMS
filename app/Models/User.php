@@ -127,4 +127,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Course::class, 'course_user');
     }
+
+    public function instructorReviews()
+    {
+        return $this->hasMany(InstructorReview::class);
+    }
 }

@@ -17,6 +17,7 @@ use App\Http\Controllers\InstructorAreaController;
 use App\Http\Controllers\StudentProfileShowController;
 use App\Http\Controllers\Dashboard\CouponsController;
 use App\Http\Controllers\Dashboard\CouponsCrudController;
+use App\Http\Controllers\Dashboard\InstructorReviewsController;
 use App\Models\Certification;
 use App\Http\Controllers\CertificationController;
 use App\Http\Controllers\InstructorAreaController;
@@ -52,7 +53,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/reviews', 'myReviews');
     });
 
+    // Coupons Routes
     Route::apiResource('/instructors/coupons', CouponsController::class)->middleware('instructor');
+    // Instructor Reviews Routes
+    Route::apiResource('/instructors/reviews', InstructorReviewsController::class)->middleware('instructor');
 });
 Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->middleware('auth:sanctum');

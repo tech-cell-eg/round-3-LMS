@@ -10,7 +10,7 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class InstructorReviewController extends Controller
+class InstructorReviewsController extends Controller
 {
     use ApiResponse;
     public function index()
@@ -24,7 +24,7 @@ class InstructorReviewController extends Controller
 
             return $this->successResponse(
                 [
-                    'reviews' =>InstructorReviewsResource::collection($reviews),
+                    'reviews' => InstructorReviewsResource::collection($reviews),
                     'pagination' => new PaginationResource($reviews),
                 ],
                 'Reviews fetched successfully.'
@@ -53,4 +53,5 @@ class InstructorReviewController extends Controller
             'Review fetched successfully.'
         );
     }
+
 }
