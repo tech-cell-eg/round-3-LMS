@@ -14,6 +14,7 @@ class UserEnrolledNotification extends Notification
 {
     use Queueable;
 
+    
     /**
      * Create a new notification instance.
      */
@@ -32,10 +33,10 @@ class UserEnrolledNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'message' => "{$this->student->name} joined your course: {$this->course->title}",
+            'message' => "{$this->student->full_name} joined your course: {$this->course->title}",
             'user' => [
-                'name' => $this->student->name,
-                'avatar' => $this->student->avatar,
+                'name' => $this->student->full_name,
+                'avatar' => $this->student->avatar?->path ?? null,
             ],
             'course' => [
                 'id' => $this->course->id,

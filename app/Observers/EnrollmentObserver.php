@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Events\UserEnrolled;
 use App\Models\Enrollment;
+use App\Notifications\UserEnrolledNotification;
 
 class EnrollmentObserver
 {
@@ -12,9 +12,11 @@ class EnrollmentObserver
      */
     public function created(Enrollment $enrollment): void
     {
-        event(new UserEnrolled(
-            $enrollment->user,
-            $enrollment->course
+        $instructor = $enrollment->course->instructor;
+
+        $instructor->notify(new UserEnrolledNotification(
+            student: $enrollment->user,
+            course: $enrollment->course
         ));
     }
 }
