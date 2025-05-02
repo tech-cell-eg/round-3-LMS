@@ -156,4 +156,19 @@ class CourseController extends Controller
             return $this->errorResponse('Failed to create course', 500);
         }
     }
+    public function TopThreeCourses(){
+        try {
+            $courses = Course::topCourses()->get();
+            if ($courses->isEmpty()) {
+                return $this->errorResponse('No courses found', 404);
+            }
+
+            return $this->successResponse([
+                'courses' => CourseIndexResource::collection($courses),
+            ], 'Top three courses retrieved successfully');
+
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to retrieve top three courses' . $e->getMessage(), 500);
+        }
+    }
 }

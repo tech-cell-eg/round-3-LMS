@@ -14,19 +14,19 @@ class InstructorReviewSeeder extends Seeder
     {
         // Sample data for instructor reviews
         $reviews = [
-            ['user_review' => 'John Doe','instructor_id' => 1,'rating' => 5,'comment' => 'Great instructor!',],
-            ['user_review' => 'Jane Smith','instructor_id' => 1,'rating' => 5,'comment' => 'Very knowledgeable.'],
-            ['user_review' => 'Jane Smith','instructor_id' => 1,'rating' => 4,'comment' => 'Very knowledgeable.'],
-            ['user_review' => 'Jane Smith','instructor_id' => 1,'rating' => 3,'comment' => 'Very knowledgeable.'],
-            ['user_review' => 'Jane Smith','instructor_id' => 2,'rating' => 5,'comment' => 'Very knowledgeable.'],
-            ['user_review' => 'Alice Johnson','instructor_id' => 2,'rating' => 3,'comment' => 'Good, but could improve.'],
-            ['user_review' => 'Bob Brown','instructor_id' => 2,'rating' => 2,'comment' => 'Not satisfied with the course.'],
-            ['user_review' => 'Charlie Davis','instructor_id' => 3,'rating' => 5,'comment' => 'Excellent teaching style!'],
-            ['user_review' => 'Diana Evans','instructor_id' => 3,'rating' => 4,'comment' => 'Very engaging lectures.'],
-            ['user_review' => 'John Doe','instructor_id' => 4,'rating' => 5,'comment' => 'Great instructor!',],
-            ['user_review' => 'Jane Smith','instructor_id' => 4,'rating' => 4,'comment' => 'Very knowledgeable.'],
-            ['user_review' => 'Alice Johnson','instructor_id' => 5,'rating' => 3,'comment' => 'Good, but could improve.'],
-            ['user_review' => 'Bob Brown','instructor_id' => 5,'rating' => 2,'comment' => 'Not satisfied with the course.'],
+            ['user_id' => 6,'instructor_id' => 1,'rating' => 5,'comment' => 'Great instructor!','created_at' => now()],
+            ['user_id' => 7,'instructor_id' => 1,'rating' => 5,'comment' => 'Very knowledgeable.','created_at' => now()],
+            ['user_id' => 8,'instructor_id' => 1,'rating' => 4,'comment' => 'Very knowledgeable.','created_at' => now()],
+            ['user_id' => 9,'instructor_id' => 1,'rating' => 3,'comment' => 'Very knowledgeable.','created_at' => now()],
+            ['user_id' => 10,'instructor_id' => 2,'rating' => 5,'comment' => 'Very knowledgeable.','created_at' => now()],
+            ['user_id' => 6,'instructor_id' => 2,'rating' => 3,'comment' => 'Good, but could improve.','created_at' => now()],
+            ['user_id' => 7,'instructor_id' => 2,'rating' => 2,'comment' => 'Not satisfied with the course.','created_at' => now()],
+            ['user_id' => 8,'instructor_id' => 3,'rating' => 5,'comment' => 'Excellent teaching style!','created_at' => now()],
+            ['user_id' => 9,'instructor_id' => 3,'rating' => 4,'comment' => 'Very engaging lectures.','created_at' => now()],
+            ['user_id' => 10,'instructor_id' => 4,'rating' => 5,'comment' => 'Great instructor!','created_at' => now()],
+            ['user_id' => 6,'instructor_id' => 4,'rating' => 4,'comment' => 'Very knowledgeable.','created_at' => now()],
+            ['user_id' => 7,'instructor_id' => 5,'rating' => 3,'comment' => 'Good, but could improve.','created_at' => now()],
+            ['user_id' => 8,'instructor_id' => 5,'rating' => 2,'comment' => 'Not satisfied with the course.','created_at' => now()],
         ];
 
         foreach ($reviews as $review) {

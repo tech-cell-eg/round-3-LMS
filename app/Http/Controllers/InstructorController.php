@@ -9,6 +9,8 @@ use App\Models\InstructorReview;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth ;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class InstructorController extends Controller
 {
@@ -57,4 +59,68 @@ class InstructorController extends Controller
           'new_role'=>'instructor',
       ], 'User changed to instructor successfully');
     }
+  
+    
+    public function yearlyEarnings()
+    {
+        $user = Auth::user();
+        $id = $user->id;
+        $instructor = Instructor::find($user->id);
+        if (!$instructor) {
+            return $this->errorResponse('Instructor not found', 404);
+        }
+        $oneYearAgo = Carbon::now()->subYear();
+
+    $monthlyEarnings = DB::table('enrollments')
+    ->join('courses', 'enrollments.course_id', '=', 'courses.id')
+    ->where('courses.instructor_id', $id)
+    ->where('enrollments.created_at', '>=', $oneYearAgo)
+    ->selectRaw("DATE_FORMAT(enrollments.created_at, '%Y-%m') as month, SUM(enrollments.total_price) as total")
+    ->groupBy('month')
+    ->orderBy('month')
+    ->get();
+        $labels = [];
+
+        $data = [];
+        
+        $months = collect();
+        for ($i = 0; $i < 12; $i++) {
+            $month = Carbon::now()->subMonths(11 - $i)->format('Y-m');
+            $months->put($month, 0);
+        }
+        
+        foreach ($monthlyEarnings as $item) {
+            $months[$item->month] = $item->total;
+        }
+        
+        foreach ($months as $month => $total) {
+            $labels[] = $month;
+            $data[] = $total;
+        }
+        
+        return $this->successResponse([
+            'instructor_id' => $id,
+            'labels' => $labels,
+            'data' => $data
+        ], 'Monthly earnings retrieved successfully');
+        
+      }
+  
+      public function getAllusersforinstructor()
+      {
+          $user = Auth::user();
+          $instructor = Instructor::where('user_id', $user->id)->first();
+          if (!$instructor) {
+              return $this->errorResponse('Instructor not found', 404);
+          }
+          $users = DB::table('users')
+              ->join('enrollments', 'users.id', '=', 'enrollments.user_id')
+              ->join('courses', 'enrollments.course_id', '=', 'courses.id')
+              ->where('courses.instructor_id', $instructor->id)
+              ->select('users.*')
+              ->distinct()
+              ->get();
+  
+          return $this->successResponse($users, 'Users retrieved successfully');
+      }
 }

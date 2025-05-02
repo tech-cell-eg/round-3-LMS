@@ -5,8 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{CourseCustomer, CartController, AuthController, CheckController};
 use App\Http\Controllers\{CourseController, CategoryController, InstructorController};
 use App\Http\Controllers\{StudentCourseController, StudentProfileController, InstructorAreaController};
-use App\Http\Controllers\{StudentProfileShowController, NotificationController};
-use App\Http\Controllers\Dashboard\{ReviewsController, CouponsController};
+use App\Http\Controllers\{StudentProfileShowController, NotificationController, CertificationController};
+use App\Http\Controllers\{InstructorAreaController, StudentProfileShowController};
+use App\Http\Controllers\Dashboard\{ReviewsController, CouponsController, InstructorReviewsController};
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -39,7 +40,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/reviews', 'myReviews');
     });
 
+    // Coupons Routes
     Route::apiResource('/instructors/coupons', CouponsController::class)->middleware('instructor');
+    // Instructor Reviews Routes
+    Route::apiResource('/instructors/reviews', InstructorReviewsController::class)->middleware('instructor');
 });
 Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->middleware('auth:sanctum');
@@ -50,7 +54,7 @@ Route::prefix('cart')->group(function () {
 Route::apiResource('categories', CategoryController::class);
 
 Route::get('/instructors/top',[InstructorController::class, 'topInstructors']);
-Route::get('/instructors/changetoInstructor',[InstructorController::class, 'changetoInstructor'])->middleware('auth:sanctum');
+Route::post('/instructors/changetoInstructor',[InstructorController::class, 'changetoInstructor'])->middleware('auth:sanctum');
 // Courses routes
 Route::controller(CourseController::class)->prefix('courses')->group(function () {
     Route::get('/', 'index');
@@ -80,3 +84,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
     Route::post('/instructors/send-announcement', [NotificationController::class, 'sendAnnouncementToInstructorStudents'])->middleware('instructor');
 });
+
+Route::get('/topcourses', [CourseController::class, 'TopThreeCourses']);
+Route::get('/totalearnings', [InstructorController::class, 'yearlyEarnings'])->middleware(middleware: ['auth:sanctum', 'instructor']);
+
+Route::get('/students/certifications/{id}',[CertificationController::class, 'getCertification']);
+Route::get('/allstudents',[InstructorController::class, 'getAllusersforinstructor'])->middleware(middleware: ['auth:sanctum', 'instructor']);

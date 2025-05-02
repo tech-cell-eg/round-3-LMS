@@ -8,7 +8,7 @@ class Course extends Model
 {
     public function instructor()
     {
-        return $this->belongsTo(User::class, 'instructor_id');
+        return $this->belongsTo(Instructor::class,'instructor_id');
     }
     public function students()
     {
@@ -54,5 +54,12 @@ class Course extends Model
             'id'
         );
     }
+    public function scopeTopCourses($query, $limit = 3)
+{
+    return $query->with(['category', 'instructor', 'syllabi.lessons', 'reviews', 'enrollments', 'image'])
+        ->withCount('enrollments')
+        ->orderBy('enrollments_count', 'desc')
+        ->take($limit);
+}
 
 }

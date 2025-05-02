@@ -21,7 +21,7 @@ class ReviewsController extends Controller
                 $query->where('instructor_id', $instructor->id);
             })
             ->with(['user.avatar', 'course'])
-            ->paginate(1);
+            ->paginate(5);
 
         if ($reviews->isEmpty()) {
             return $this->errorResponse(
@@ -38,4 +38,5 @@ class ReviewsController extends Controller
             'Instructor reviews fetched successfully.'
         );
     }
+    
 }
