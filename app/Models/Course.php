@@ -54,5 +54,12 @@ class Course extends Model
             'id'
         );
     }
+    public function scopeTopCourses($query, $limit = 3)
+{
+    return $query->with(['category', 'instructor', 'syllabi.lessons', 'reviews', 'enrollments', 'image'])
+        ->withCount('enrollments')
+        ->orderBy('enrollments_count', 'desc')
+        ->take($limit);
+}
 
 }

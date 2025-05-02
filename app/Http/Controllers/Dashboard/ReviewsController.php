@@ -38,4 +38,5 @@ class ReviewsController extends Controller
             'Instructor reviews fetched successfully.'
         );
     }
+    
 }

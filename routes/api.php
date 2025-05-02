@@ -67,7 +67,7 @@ Route::prefix('cart')->group(function () {
 Route::apiResource('categories', CategoryController::class);
 
 Route::get('/instructors/top',[InstructorController::class, 'topInstructors']);
-Route::get('/instructors/changetoInstructor',[InstructorController::class, 'changetoInstructor'])->middleware('auth:sanctum');
+Route::post('/instructors/changetoInstructor',[InstructorController::class, 'changetoInstructor'])->middleware('auth:sanctum');
 // Courses routes
 Route::controller(CourseController::class)->prefix('courses')->group(function () {
     Route::get('/', 'index');
@@ -89,6 +89,8 @@ Route::controller(StudentProfileShowController::class)->prefix('students')->grou
 Route::controller(CourseCustomer::class)->prefix('instructorcourse')->group(function () {
     Route::get('/{id}/enrollments', 'index')->middleware(middleware: ['auth:sanctum', 'instructor']);
 });
+Route::get('/topcourses', [CourseController::class, 'TopThreeCourses']);
+Route::get('/totalearnings', [InstructorController::class, 'yearlyEarnings'])->middleware(middleware: ['auth:sanctum', 'instructor']);
 
 
 Route::get('/students/certifications/{id}',[CertificationController::class, 'getCertification']);
