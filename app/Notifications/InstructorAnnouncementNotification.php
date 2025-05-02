@@ -2,21 +2,19 @@
 
 namespace App\Notifications;
 
-use App\Models\Course;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
-class UserEnrolledNotification extends Notification
+class InstructorAnnouncementNotification extends Notification
 {
     use Queueable;
 
-    
     /**
      * Create a new notification instance.
      */
-    public function __construct(public User $student, public Course $course) { }
+    public function __construct(public string $message, public User $instructor) { }
 
     /**
      * Get the notification's delivery channels.
@@ -31,16 +29,12 @@ class UserEnrolledNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'message' => "{$this->student->full_name} joined your course: {$this->course->title}",
-            'user' => [
-                'name' => $this->student->full_name,
-                'avatar' => $this->student->avatar?->path ?? null,
-            ],
-            'course' => [
-                'id' => $this->course->id,
-                'title' => $this->course->title,
-            ],
-            'enrollment_date' => now()->diffForHumans(),
+            'message' => "Instructor sent a message: {$this->message}",
+            'announcement' => $this->message,
+            'instructor' => [
+                'name' => $this->instructor->full_name,
+                'avatar' => $this->instructor->avatar?->path ?? null,
+            ]
         ];
     }
 
