@@ -106,4 +106,21 @@ class InstructorController extends Controller
         
       }
   
+      public function getAllusersforinstructor()
+      {
+          $user = Auth::user();
+          $instructor = Instructor::where('user_id', $user->id)->first();
+          if (!$instructor) {
+              return $this->errorResponse('Instructor not found', 404);
+          }
+          $users = DB::table('users')
+              ->join('enrollments', 'users.id', '=', 'enrollments.user_id')
+              ->join('courses', 'enrollments.course_id', '=', 'courses.id')
+              ->where('courses.instructor_id', $instructor->id)
+              ->select('users.*')
+              ->distinct()
+              ->get();
+  
+          return $this->successResponse($users, 'Users retrieved successfully');
+      }
 }
