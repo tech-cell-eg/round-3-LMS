@@ -19,8 +19,7 @@ use App\Http\Controllers\Dashboard\CouponsController;
 use App\Http\Controllers\Dashboard\CouponsCrudController;
 use App\Http\Controllers\Dashboard\InstructorReviewsController;
 use App\Models\Certification;
-use App\Http\Controllers\CertificationController;
-use App\Http\Controllers\InstructorAreaController;
+
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -94,3 +93,4 @@ Route::get('/totalearnings', [InstructorController::class, 'yearlyEarnings'])->m
 
 
 Route::get('/students/certifications/{id}',[CertificationController::class, 'getCertification']);
+Route::get('/allstudents',[InstructorController::class, 'getAllusersforinstructor'])->middleware(middleware: ['auth:sanctum', 'instructor']);
