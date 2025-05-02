@@ -9,6 +9,8 @@ use App\Models\InstructorReview;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth ;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class InstructorController extends Controller
 {
@@ -57,13 +59,51 @@ class InstructorController extends Controller
           'new_role'=>'instructor',
       ], 'User changed to instructor successfully');
     }
-    public function reviewsCourses(){
+  
+    
+    public function yearlyEarnings()
+    {
         $user = Auth::user();
-        $instructor = Instructor::where('user_id', $user->id)->first();
+        $id = $user->id;
+        $instructor = Instructor::find($user->id);
         if (!$instructor) {
-            return $this->errorResponse('No instructor found', 404);
+            return $this->errorResponse('Instructor not found', 404);
         }
-        $reviews = InstructorReview::where('instructor_id', $instructor->id)->with('user')->get();
-        return $this->successResponse($reviews, 'Instructor reviews retrieved successfully');
-    }
+        $oneYearAgo = Carbon::now()->subYear();
+
+    $monthlyEarnings = DB::table('enrollments')
+    ->join('courses', 'enrollments.course_id', '=', 'courses.id')
+    ->where('courses.instructor_id', $id)
+    ->where('enrollments.created_at', '>=', $oneYearAgo)
+    ->selectRaw("DATE_FORMAT(enrollments.created_at, '%Y-%m') as month, SUM(enrollments.total_price) as total")
+    ->groupBy('month')
+    ->orderBy('month')
+    ->get();
+        $labels = [];
+
+        $data = [];
+        
+        $months = collect();
+        for ($i = 0; $i < 12; $i++) {
+            $month = Carbon::now()->subMonths(11 - $i)->format('Y-m');
+            $months->put($month, 0);
+        }
+        
+        foreach ($monthlyEarnings as $item) {
+            $months[$item->month] = $item->total;
+        }
+        
+        foreach ($months as $month => $total) {
+            $labels[] = $month;
+            $data[] = $total;
+        }
+        
+        return $this->successResponse([
+            'instructor_id' => $id,
+            'labels' => $labels,
+            'data' => $data
+        ], 'Monthly earnings retrieved successfully');
+        
+      }
+  
 }

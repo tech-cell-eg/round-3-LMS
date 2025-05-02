@@ -80,3 +80,4 @@ Route::controller(CourseCustomer::class)->prefix('instructorcourse')->group(func
     Route::get('/{id}/enrollments', 'index')->middleware(middleware: ['auth:sanctum', 'instructor']);
 });
 Route::get('/topcourses', [CourseController::class, 'TopThreeCourses']);
+Route::get('/totalearnings', [InstructorController::class, 'yearlyEarnings'])->middleware(middleware: ['auth:sanctum', 'instructor']);
