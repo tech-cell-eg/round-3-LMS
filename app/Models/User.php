@@ -128,6 +128,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Course::class, 'course_user');
     }
 
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
     public function instructorReviews()
     {
         return $this->hasMany(InstructorReview::class);
