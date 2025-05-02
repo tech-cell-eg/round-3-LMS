@@ -18,7 +18,7 @@ class StudentCourseController extends Controller
                 $query->where('id', $id)
                     ->whereNotNull('instructor_id');
             })
-            ->with(['course.reviews', 'course.instructor.avatar', 'course.image', 'course.syllabi'])
+            ->with(['course.reviews', 'course.instructor.avatar', 'course.image', 'course.syllabi','user.certifications'])
             ->first();
 
         if (!$enrollment) {

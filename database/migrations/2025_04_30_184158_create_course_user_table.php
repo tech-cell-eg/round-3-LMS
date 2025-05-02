@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('instructor_reviews', function (Blueprint $table) {
+        Schema::create('course_user', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('instructor_id')->constrained()->onDelete('cascade');
-            $table->enum('rating',['1' , '2', '3', '4', '5'])->nullable();
-            $table->text('comment')->nullable();
+            $table->foreignId('course_id')->constrained('courses');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('instructor_reviews');
+        Schema::dropIfExists('course_user');
     }
 };

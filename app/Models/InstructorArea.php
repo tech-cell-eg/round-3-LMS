@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Coupon extends Model
+class InstructorArea extends Model
 {
-    public function enrollments()
-    {
-        return $this->hasMany(Enrollment::class, 'coupon_id');
-    }
+    protected $table = 'instructor_areas';
+
+    protected $fillable = ['area'];
 
     public function instructor()
     {

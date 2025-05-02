@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Enrollment extends Model
+class Certification extends Model
 {
     public function user()
     {
@@ -13,10 +13,5 @@ class Enrollment extends Model
     public function course()
     {
         return $this->belongsTo(Course::class);
-    }
-
-    public function coupon()
-    {
-        return $this->belongsTo(Coupon::class, 'coupon_id');
     }
 }

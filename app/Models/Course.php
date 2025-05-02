@@ -8,11 +8,11 @@ class Course extends Model
 {
     public function instructor()
     {
-        return $this->belongsTo(User::class, 'instructor_id');
+        return $this->belongsTo(Instructor::class,'instructor_id');
     }
     public function students()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class,'course_user');
     }
     public function reviews()
     {
@@ -39,6 +39,10 @@ class Course extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function certifications()
+    {
+        return $this->hasMany(Certification::class);
+    }
     public function lessonProgress()
     {
         return $this->hasManyThrough(

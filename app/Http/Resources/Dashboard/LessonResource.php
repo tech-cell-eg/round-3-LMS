@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Dashboard;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -15,14 +15,14 @@ class LessonResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id" => $this->id,
+            "id"=> $this->id,
+            'section_id'=> $this->syllabi_id,
             'title' => $this->title,
-            'type' => $this->type ?: null,
-            'lesson_url' => $this->type === 'text' ? null : ($this->lesson_url ?: null),
-            'text' => $this->type === 'text' ? $this->text : null,
-            'duration_in_mins' => $this->duration,
-            'completed' => (bool) $this->is_preview,
+            'duration' => $this->duration,
+            'is_preview' => $this->is_preview,
             'order' => $this->order,
+            'type'=> $this->type,
+            'content' => $this->type === 'text' ? $this->text_content : $this->video_url,
         ];
     }
 }

@@ -1,19 +1,26 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CourseCustomer;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CheckController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\StudentProfileController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CheckController;
+use App\Http\Controllers\CertificationController;
 use App\Http\Controllers\Dashboard\ReviewsController;
+use App\Http\Controllers\InstructorAreaController;
 use App\Http\Controllers\StudentProfileShowController;
-use App\Http\Controllers\CourseCustomer;
 use App\Http\Controllers\Dashboard\CouponsController;
+use App\Http\Controllers\Dashboard\CouponsCrudController;
+use App\Http\Controllers\Dashboard\InstructorReviewsController;
+use App\Models\Certification;
+use App\Http\Controllers\CertificationController;
+use App\Http\Controllers\InstructorAreaController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -28,6 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(InstructorController::class)->prefix('instructors')->group(function () {
         Route::post('/{id}/review', 'addReview');
     });
+    Route::apiResource('/instructors/areas', InstructorAreaController::class)->middleware('auth:instructor');
 
     // Students Filter Routes
     Route::controller(StudentProfileController::class)->prefix('students')->group(function () {
@@ -44,9 +52,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(ReviewsController::class)->middleware('instructor')->prefix('instructors')->group(function () {
         Route::get('/reviews', 'myReviews');
     });
-    Route::controller(CouponsController::class)->middleware('instructor')->prefix('instructors')->group(function () {
-        Route::get('/coupons', 'myCoupons');
-    });
+
+    // Coupons Routes
+    Route::apiResource('/instructors/coupons', CouponsController::class)->middleware('instructor');
+    // Instructor Reviews Routes
+    Route::apiResource('/instructors/reviews', InstructorReviewsController::class)->middleware('instructor');
 });
 Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->middleware('auth:sanctum');
@@ -81,3 +91,6 @@ Route::controller(CourseCustomer::class)->prefix('instructorcourse')->group(func
 });
 Route::get('/topcourses', [CourseController::class, 'TopThreeCourses']);
 Route::get('/totalearnings', [InstructorController::class, 'yearlyEarnings'])->middleware(middleware: ['auth:sanctum', 'instructor']);
+
+
+Route::get('/students/certifications/{id}',[CertificationController::class, 'getCertification']);

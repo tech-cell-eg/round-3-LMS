@@ -85,9 +85,9 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->is('api/*') || $request->is('admin/*')) {
                 return response()->json([
                     'success' => (bool) false,
-                    'message' => 'Internal Server Error',
+                    'message' => 'THIS ACTION IS UNAUTHORIZED.',
                     'data'    => $e->getMessage(),
-                ], 500);
+                ], 403);
             }
         });
     })->create();
