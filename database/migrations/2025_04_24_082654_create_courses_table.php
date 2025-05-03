@@ -17,9 +17,9 @@ return new class extends Migration
             $table->foreignId('instructor_id')->constrained('instructors')->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->decimal('price', 10, 2)->default(0);
-            $table->integer('duration');
+            $table->integer('duration')->nullable();
             $table->enum('level', ['beginner', 'intermediate', 'advanced']);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('video_url')->nullable();
             $table->boolean('status')->default(1);
             $table->decimal('sale', 10, 2)->default(0);

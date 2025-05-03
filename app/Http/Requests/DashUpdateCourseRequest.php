@@ -22,7 +22,7 @@ class DashUpdateCourseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|required|string|max:255',
+            'title' => 'sometimes|required|string|max:255',
             'description' => 'sometimes|required|string',
             'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
             'price' => 'sometimes|required|numeric|min:0',

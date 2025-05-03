@@ -6,7 +6,7 @@ use App\Http\Controllers\{CourseCustomer, CartController, AuthController, CheckC
 use App\Http\Controllers\{CourseController, CategoryController, InstructorController};
 use App\Http\Controllers\{StudentCourseController, StudentProfileController, InstructorAreaController};
 use App\Http\Controllers\{StudentProfileShowController, NotificationController, CertificationController};
-use App\Http\Controllers\{InstructorAreaController, StudentProfileShowController};
+// use App\Http\Controllers\{InstructorAreaController, StudentProfileShowController};
 use App\Http\Controllers\Dashboard\{ReviewsController, CouponsController, InstructorReviewsController};
 
 Route::prefix('auth')->group(function () {
