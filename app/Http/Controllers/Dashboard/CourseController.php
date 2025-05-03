@@ -6,8 +6,11 @@ use App\Models\Course;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\PaginationResource;
 use App\Http\Requests\DashStoreCourseRequest;
+use App\Http\Requests\DashUpdateCourseRequest;
 use App\Http\Resources\Dashboard\CourseShowResource;
 use App\Http\Resources\Dashboard\CourseIndexResource;
 
@@ -20,6 +23,7 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::withCount(['students', 'reviews', 'syllabi','favorites','enrollments'])
+        ->where('instructor_id', Auth::user()->id)
             ->latest()
             ->paginate(10);
 
@@ -34,7 +38,11 @@ class CourseController extends Controller
      */
     public function store(DashStoreCourseRequest $request)
     {
-        $course = Course::create($request->validated());
+        $image = $request->file('image')->store('courses', 'public');
+        $course = Course::create($request->validated()+ [
+            'instructor_id' => Auth::id(),
+        ]);
+        $course->image->path = $image;
         return $this->successResponse([
             'course' => new CourseShowResource($course)
         ], 'Course created successfully');
@@ -55,10 +63,19 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(DashUpdateCourseRequest $request, string $id)
     {
         $course = Course::findOrFail($id);
         $course->update($request->validated());
+
+        if($request->hasFile('image')) {
+            $image = $request->file('image')->store('courses', 'public');
+            if ($course->image) {
+                Storage::disk('public')->delete($course->image);
+            }
+            $course->image->path = $image;
+            $course->image->save();
+        }
 
         return $this->successResponse([
             'course' => new CourseShowResource($course)
@@ -71,6 +88,9 @@ class CourseController extends Controller
     public function destroy(string $id)
     {
         $course = Course::findOrFail($id);
+        if ($course->image) {
+            Storage::disk('public')->delete($course->image);
+        }
         $course->delete();
 
         return $this->successResponse(null, 'Course deleted successfully');

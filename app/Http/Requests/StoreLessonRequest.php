@@ -23,14 +23,13 @@ class StoreLessonRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'video_url' => 'nullable|string|required_if:type,video',
             'syllabi_id' => 'required|exists:syllabis,id',
             'is_preview' => 'required|boolean',
             'duration' => 'required|integer',
             'order' => 'required|integer',
-            'type' => 'required|string|in:text,video',
-            'text_content' => 'nullable|string|required_if:type,text',
+            'type' => 'required|string|in:text,video,url',
+            'lesson_url' => 'nullable|string|required_if:type,url',
+            'text' => 'nullable|string|required_if:type,text',
         ];
     }
 }

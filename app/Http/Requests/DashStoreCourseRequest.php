@@ -22,18 +22,16 @@ class DashStoreCourseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'price' => 'required|numeric|min:0',
-            'duration' => 'required|numeric|min:0',
+            'duration' => 'nullable|numeric|min:0',
             'level' => 'required|string|in:beginner,intermediate,advanced',
             'category_id' => 'required|exists:categories,id',
-            'status' => 'required|in:active,inactive',
             'sale' => 'nullable|numeric|min:0',
             'language' => 'nullable|string|max:255',
             'certificate' => 'nullable|boolean',
-            
         ];
     }
 }

@@ -6,7 +6,7 @@ use App\Http\Controllers\{CourseCustomer, CartController, AuthController, CheckC
 use App\Http\Controllers\{CourseController, CategoryController, InstructorController};
 use App\Http\Controllers\{StudentCourseController, StudentProfileController, InstructorAreaController};
 use App\Http\Controllers\{StudentProfileShowController, NotificationController, CertificationController};
-use App\Http\Controllers\{InstructorAreaController, StudentProfileShowController};
+// use App\Http\Controllers\{InstructorAreaController, StudentProfileShowController};
 use App\Http\Controllers\Dashboard\{ReviewsController, CouponsController, InstructorReviewsController};
 
 Route::prefix('auth')->group(function () {
@@ -90,3 +90,5 @@ Route::get('/totalearnings', [InstructorController::class, 'yearlyEarnings'])->m
 
 Route::get('/students/certifications/{id}',[CertificationController::class, 'getCertification']);
 Route::get('/allstudents',[InstructorController::class, 'getAllusersforinstructor'])->middleware(middleware: ['auth:sanctum', 'instructor']);
+
+Route::get('courses/instructor/{id}', [CourseController::class, 'instructorCourses']);
