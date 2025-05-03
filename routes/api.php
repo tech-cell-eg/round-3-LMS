@@ -90,3 +90,5 @@ Route::get('/totalearnings', [InstructorController::class, 'yearlyEarnings'])->m
 
 Route::get('/students/certifications/{id}',[CertificationController::class, 'getCertification']);
 Route::get('/allstudents',[InstructorController::class, 'getAllusersforinstructor'])->middleware(middleware: ['auth:sanctum', 'instructor']);
+
+Route::get('courses/instructor/{id}', [CourseController::class, 'instructorCourses']);

@@ -171,4 +171,22 @@ class CourseController extends Controller
             return $this->errorResponse('Failed to retrieve top three courses' . $e->getMessage(), 500);
         }
     }
+    public function instructorCourses($instructor_id){
+        try {
+            $courses = Course::with(['category', 'instructor', 'syllabi.lessons', 'reviews', 'enrollments', 'image'])
+                ->where('instructor_id', $instructor_id)
+                ->latest()
+                ->paginate(10);
+
+            if ($courses->isEmpty()) {
+                return $this->errorResponse('No courses found', 404);
+            }
+            return $this->successResponse([
+                'courses' => CourseIndexResource::collection($courses),
+                'pagination' => new PaginationResource($courses),
+            ], 'Instructor courses retrieved successfully');
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to retrieve instructor courses' . $e->getMessage(), 500);
+        }
+    }
 }
